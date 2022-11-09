@@ -30,6 +30,11 @@ namespace Pumpkin.AI.BehaviorTree
             m_BTBlackboard.visible =true;
 
             //m_CreateNodeWindow = CreateNodeSearchWindow();
+
+
+            //m_BTGraphView.Add(m_BTBlackboard);
+
+            rootVisualElement.Add(m_BTGraphView);
         }
 
         private BTGraphView CreateGraphView()
