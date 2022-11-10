@@ -1,3 +1,4 @@
+using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 
@@ -7,7 +8,7 @@ namespace Pumpkin.AI.BehaviorTree
     {
         protected AbstractGraphView()
         {
-            var styleSheet = UnityEngine.Resources.Load<StyleSheet>("Stylesheets/DefaultEditorWindowGrid");
+            var styleSheet = Resources.Load<StyleSheet>("Stylesheets/DefaultEditorWindowGrid");
             styleSheets.Add(styleSheet);
 
             SetupZoom(ContentZoomer.DefaultMinScale, ContentZoomer.DefaultMaxScale);
