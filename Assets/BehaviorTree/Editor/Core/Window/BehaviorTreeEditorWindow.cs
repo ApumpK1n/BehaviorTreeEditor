@@ -46,17 +46,10 @@ namespace Pumpkin.AI.BehaviorTree
 
         private BTGraphView CreateGraphView()
         {
-            if (Selection.activeGameObject == null)
-            {
-                var emptyGraphView = new BTGraphView();
-                emptyGraphView.StretchToParentSize();
-                return emptyGraphView;
-            }
-            return null;
-            //var res = TryGetBehaviorTree(Selection.activeGameObject, out var BT);
-            //var graphView = res ? new BTGraphView(BT.DesignContainer) : new BTGraphView();
-            //graphView.StretchToParentSize();
-            //return (graphView, res ? BT : null);
+            var emptyGraphView = new BTGraphView();
+            emptyGraphView.StretchToParentSize();
+
+            return emptyGraphView;
         }
 
         private BTBlackboard CreateBlackboard(BTGraphView graphView, string title, Rect rect)
@@ -106,7 +99,29 @@ namespace Pumpkin.AI.BehaviorTree
             })
             { text = "Save Assets" };
 
+            var objFieldContainer = new ObjectField
+            {
+                objectType = typeof(BehaviorTreeDesignContainer),
+                allowSceneObjects = false,
+                value = m_DesignContainer,
+            };
+
+            objFieldContainer.RegisterValueChangedCallback(v =>
+            {
+                m_DesignContainer = objFieldContainer.value as BehaviorTreeDesignContainer;
+                if (m_DesignContainer != null)
+                {
+                    m_BTGraphView.UpdateView(m_DesignContainer);
+                }
+                else
+                {
+                    m_BTGraphView.UpdateView(null);
+                }
+
+            });
+
             toolbar.Add(saveBtn);
+            toolbar.Add(objFieldContainer);
 
             return toolbar;
         }

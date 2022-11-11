@@ -8,7 +8,7 @@ namespace Pumpkin.AI.BehaviorTree
 {
     public interface ISavable
     {
-        string Index { get; }
+        string Guid { get; }
         void Save(BehaviorTreeDesignContainer designContainer);
     }
 }

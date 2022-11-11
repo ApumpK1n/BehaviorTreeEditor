@@ -6,10 +6,18 @@ using UnityEditor.Experimental.GraphView;
 
 namespace Pumpkin.AI.BehaviorTree
 {
-    [CreateAssetMenu(fileName = "BehaviorTree_Design_Container", menuName = "Pumpkin/AI/BehaviorTree Design  Container")]
+    [CreateAssetMenu(menuName = "Pumpkin/AI/BehaviorTree Design Container")]
     public class BehaviorTreeDesignContainer : ScriptableObject
     {
-        public List<GraphSerializableNodeData> nodeDataList = new List<GraphSerializableNodeData>();
+        [SerializeField]
+        private List<GraphSerializableNodeData> nodeDataList = new List<GraphSerializableNodeData>();
+
+        public List<GraphSerializableNodeData> NodeDataList 
+        { get
+            {
+                return nodeDataList;
+            }
+        }
         //public List<BTTaskData> taskDataList = new List<BTTaskData>();
 
         public void Save(UQueryState<Node> nodes)
@@ -19,6 +27,11 @@ namespace Pumpkin.AI.BehaviorTree
             nodes.ForEach(node => (node as ISavable).Save(this));
         }
 
+
+        public void AddNodeData(GraphSerializableNodeData graphSerializableNodeData)
+        {
+            nodeDataList.Add(graphSerializableNodeData);
+        }
     }
 }
 

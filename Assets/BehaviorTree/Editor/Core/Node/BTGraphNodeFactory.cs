@@ -11,18 +11,18 @@ namespace Pumpkin.AI.BehaviorTree
         }
 
 
-        public static Node CreateNode(BTNodeType nodeType, Vector2 pos)
+        public static Node CreateNode(BTNodeType nodeType, Vector2 pos, string guid)
         {
             switch (nodeType)
             {
                 case BTNodeType.Root:
-                    return new BTGraphNode<BTGraphRootData>(pos);
+                    return new BTGraphNode<BTGraphRootData>(pos, guid);
                 case BTNodeType.Sequencer:
-                    return new BTGraphNode<BTGraphSequencerData>(pos);
+                    return new BTGraphNode<BTGraphSequencerData>(pos, guid);
                 case BTNodeType.Selector:
-                    return new BTGraphNode<BTGraphSelectorData>(pos);
+                    return new BTGraphNode<BTGraphSelectorData>(pos, guid);
                 default:
-                    return new BTGraphNode<BTGraphRootData>(pos);
+                    return new BTGraphNode<BTGraphRootData>(pos, guid);
             }
         }
 

@@ -13,18 +13,21 @@ namespace Pumpkin.AI.BehaviorTree
         Multi
     }
 
-    public class BTGraphNode<T> : Node where T : IBTGraphNodeData, new()
+    public class BTGraphNode<T> : Node, ISavable where T : IBTGraphNodeData, new()
     {
         private static Vector2 DefaultNodeSize = new Vector2(300f, 400f);
         protected T m_NodeData;
 
+        private string m_Guid;
+        public string Guid => m_Guid;
 
-        public BTGraphNode(Vector2 pos)
+        public BTGraphNode(Vector2 pos, string guid = "")
         {
             styleSheets.Add(Resources.Load<StyleSheet>("Stylesheets/BTGraphNode"));
             AddToClassList("bold-text");
 
             m_NodeData = new T();
+            m_Guid = string.IsNullOrEmpty(guid) ? System.Guid.NewGuid().ToString() : guid;
 
             CreatePorts(inputContainer, outputContainer);
 
@@ -133,7 +136,32 @@ namespace Pumpkin.AI.BehaviorTree
                     return string.Empty;
             }
         }
+
         #endregion
+
+        public void Save(BehaviorTreeDesignContainer designContainer)
+        {
+            designContainer.AddNodeData(
+               new GraphSerializableNodeData(GetPosition().position, m_Guid, GetParentGuid(inputContainer), m_NodeData.NodeType));
+        }
+
+        protected string GetParentGuid(VisualElement inputContainer)
+        {
+            if (inputContainer.childCount == 0)
+            {
+                return string.Empty;
+            }
+
+            var inputPort = inputContainer[0] as Port;
+
+            if (!inputPort.connected)
+            {
+                return string.Empty;
+            }
+
+            var parentNode = inputPort.connections.First(edge => edge.output == inputPort).output.node;
+            return (parentNode as ISavable).Guid;
+        }
     }
 }
 
