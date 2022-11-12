@@ -78,7 +78,7 @@ namespace Pumpkin.AI.BehaviorTree
                 return graphView.WorldToLocal(worldPos);
             };
 
-            window.Init(node => graphView.AddElement(node), contextToLocalMousePos);
+            window.Init(OnCreateNode, contextToLocalMousePos);
             return window;
         }
 
@@ -92,10 +92,7 @@ namespace Pumpkin.AI.BehaviorTree
 
             var saveBtn = new Button(() =>
             {
-                if (m_DesignContainer != null)
-                {
-                    m_DesignContainer.Save(m_BTGraphView.nodes);
-                }
+                SaveNodes2Container();
             })
             { text = "Save Assets" };
 
@@ -124,6 +121,20 @@ namespace Pumpkin.AI.BehaviorTree
             toolbar.Add(objFieldContainer);
 
             return toolbar;
+        }
+
+        private void SaveNodes2Container()
+        {
+            if (m_DesignContainer != null)
+            {
+                m_DesignContainer.Clear();
+                m_BTGraphView.SaveNodes(m_DesignContainer);
+            }
+        }
+
+        private void OnCreateNode(Node node)
+        {
+            m_BTGraphView.AddNodeGraphElement(node);
         }
     }
 }

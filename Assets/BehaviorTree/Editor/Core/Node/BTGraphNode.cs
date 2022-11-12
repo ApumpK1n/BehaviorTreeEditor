@@ -40,7 +40,7 @@ namespace Pumpkin.AI.BehaviorTree
 
             if (m_NodeData.NodeType == BTNodeType.Root)
             {
-                capabilities &= ~Capabilities.Movable;
+                //capabilities &= ~Capabilities.Movable;
                 capabilities &= ~Capabilities.Deletable;
             }
         }
@@ -103,9 +103,11 @@ namespace Pumpkin.AI.BehaviorTree
             var container = new VisualElement();
             container.style.flexDirection = FlexDirection.Row;
 
-            var icon = new Image();
-            icon.image = GetIcon(type);
-            icon.scaleMode = ScaleMode.ScaleToFit;
+            var icon = new Image
+            {
+                image = GetIcon(type),
+                scaleMode = ScaleMode.ScaleToFit
+            };
             icon.style.marginRight = 5;
             container.Add(icon);
 
@@ -159,7 +161,8 @@ namespace Pumpkin.AI.BehaviorTree
                 return string.Empty;
             }
 
-            var parentNode = inputPort.connections.First(edge => edge.output == inputPort).output.node;
+            var edge = inputPort.connections.First(edge => edge.output != inputPort);
+            var parentNode = edge.output.node;
             return (parentNode as ISavable).Guid;
         }
     }

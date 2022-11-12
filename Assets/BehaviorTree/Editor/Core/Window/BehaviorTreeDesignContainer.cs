@@ -13,18 +13,18 @@ namespace Pumpkin.AI.BehaviorTree
         private List<GraphSerializableNodeData> nodeDataList = new List<GraphSerializableNodeData>();
 
         public List<GraphSerializableNodeData> NodeDataList 
-        { get
+        { 
+            get
             {
                 return nodeDataList;
             }
         }
         //public List<BTTaskData> taskDataList = new List<BTTaskData>();
 
-        public void Save(UQueryState<Node> nodes)
+        public void Clear()
         {
             nodeDataList.Clear();
             //taskDataList.Clear();
-            nodes.ForEach(node => (node as ISavable).Save(this));
         }
 
 

@@ -26,6 +26,11 @@ namespace Pumpkin.AI.BehaviorTree
             return compatiblePorts;
         }
 
+        public void SaveNodes(BehaviorTreeDesignContainer designContainer)
+        {
+            nodes.ForEach(node => (node as ISavable).Save(designContainer));
+        }
+
         public void UpdateView(BehaviorTreeDesignContainer designContainer)
         {
             if (designContainer == null)
@@ -71,7 +76,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         }
 
-        private void AddNodeGraphElement(GraphElement element)
+        public void AddNodeGraphElement(GraphElement element)
         {
             AddElement(element);
             m_NodeGraphElements.Add(element);
