@@ -26,10 +26,9 @@ namespace Pumpkin.AI.BehaviorTree
             }
         }
 
-        //public static Node CreateNode(BTBaseTask task, UnityEngine.Vector2 pos, string guid = "")
-        //{
-        //    var leafType = typeof(BTGraphNodeLeaf<>).MakeGenericType(task.GetType());
-        //    return System.Activator.CreateInstance(leafType, new object[] { pos, guid }) as Node;
-        //}
+        public static Node CreateActionNode<T>(Vector2 pos, string guid) where T : SerializableProperty
+        {
+            return new BTGraphNode<BTGraphActionData<T>>(pos, guid);
+        }
     }
 }

@@ -10,5 +10,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         public static string GraphSequencerName = "Sequencer";
 
+        public static string GraphActionName = "Action";
+
     }
 }

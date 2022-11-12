@@ -56,18 +56,13 @@ namespace Pumpkin.AI.BehaviorTree
                     userData = typeof(BTGraphSelectorData),
                     level = 2
                 },
-                new SearchTreeGroupEntry(new GUIContent("Action"), 1)
+                new SearchTreeGroupEntry(new GUIContent("Action"), 1),
+                new SearchTreeEntry(new GUIContent("Wait", m_Indentation))
+                {
+                    userData = typeof(BTGraphActionData<ActionWaitProperty>),
+                    level = 2
+                },
             };
-
-            //foreach (var type in taskTypes)
-            //{
-            //    tree.Add(
-            //        new SearchTreeEntry(new GUIContent(GetTaskName(type), _indentation))
-            //        {
-            //            userData = type,
-            //            level = 2
-            //        });
-            //}
 
             return tree;
         }

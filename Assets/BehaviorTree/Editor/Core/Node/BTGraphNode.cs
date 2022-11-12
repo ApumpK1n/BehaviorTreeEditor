@@ -38,6 +38,11 @@ namespace Pumpkin.AI.BehaviorTree
 
             SetPosition(new Rect(pos, DefaultNodeSize));
 
+            DrawSpecialType();
+        }
+
+        private void DrawSpecialType()
+        {
             if (m_NodeData.NodeType == BTNodeType.Root)
             {
                 //capabilities &= ~Capabilities.Movable;
@@ -141,7 +146,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         #endregion
 
-        public void Save(BehaviorTreeDesignContainer designContainer)
+        public virtual void Save(BehaviorTreeDesignContainer designContainer)
         {
             designContainer.AddNodeData(
                new GraphSerializableNodeData(GetPosition().position, m_Guid, GetParentGuid(inputContainer), m_NodeData.NodeType));
