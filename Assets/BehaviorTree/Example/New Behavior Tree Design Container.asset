@@ -17,3 +17,5 @@ MonoBehaviour:
     m_NodeGuid: 3d4c09c3-c78e-4f0c-ad8c-6171b64987d5
   - m_NodeType: 1
     m_NodeGuid: 303148f4-c860-4dbc-a813-eb4c54b722f0
+  - m_NodeType: 4
+    m_NodeGuid: 78552290-9755-48b1-8fe1-c6ccfe831164
