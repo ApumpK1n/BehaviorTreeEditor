@@ -15,10 +15,10 @@ namespace Pumpkin.AI.BehaviorTree
 
     public class BTGraphNode<T> : Node, ISavable where T : IBTGraphNodeData, new()
     {
-        private static Vector2 DefaultNodeSize = new Vector2(300f, 400f);
+        protected static Vector2 DefaultNodeSize = new Vector2(300f, 400f);
         protected T m_NodeData;
 
-        private string m_Guid;
+        protected string m_Guid;
         public string Guid => m_Guid;
 
         public BTGraphNode(Vector2 pos, string guid = "")
@@ -159,7 +159,7 @@ namespace Pumpkin.AI.BehaviorTree
                 return string.Empty;
             }
 
-            var inputPort = inputContainer[0] as Port;
+            Port inputPort = inputContainer[0] as Port;
 
             if (!inputPort.connected)
             {

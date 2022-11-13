@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEditor.Experimental.GraphView;
+using UnityEditor;
 
 namespace Pumpkin.AI.BehaviorTree
 {
@@ -31,6 +30,10 @@ namespace Pumpkin.AI.BehaviorTree
         public void AddNodeData(GraphSerializableNodeData graphSerializableNodeData)
         {
             nodeDataList.Add(graphSerializableNodeData);
+
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
         }
     }
 }

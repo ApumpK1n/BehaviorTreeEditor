@@ -10,6 +10,11 @@ namespace Pumpkin.AI.BehaviorTree
             return new BTGraphNode<T>(pos);
         }
 
+        public static Node CreateActionNodeGeneric<T>(Vector2 pos) where T : SerializableProperty, new()
+        {
+            return new BTGraphActionNode<T>(pos);
+        }
+
 
         public static Node CreateNode(BTNodeType nodeType, Vector2 pos, string guid)
         {
@@ -26,9 +31,10 @@ namespace Pumpkin.AI.BehaviorTree
             }
         }
 
-        public static Node CreateActionNode<T>(Vector2 pos, string guid) where T : SerializableProperty
+        public static Node CreateNode(Vector2 pos, string guid, SerializableProperty property)
         {
-            return new BTGraphNode<BTGraphActionData<T>>(pos, guid);
+            var leafType = typeof(BTGraphActionNode<>).MakeGenericType(property.GetType());
+            return System.Activator.CreateInstance(leafType, new object[] { pos, guid, property }) as Node;
         }
     }
 }

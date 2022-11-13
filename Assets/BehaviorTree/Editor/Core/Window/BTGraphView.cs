@@ -37,6 +37,7 @@ namespace Pumpkin.AI.BehaviorTree
             {
                 foreach(var element in m_NodeGraphElements)
                 {
+                    element.Clear();
                     RemoveElement(element);
                 }
                 m_NodeGraphElements.Clear();
@@ -56,7 +57,15 @@ namespace Pumpkin.AI.BehaviorTree
 
             foreach (var nodeData in designContainer.NodeDataList)
             {
-                var node = BTGraphNodeFactory.CreateNode(nodeData.NodeType, nodeData.Position, nodeData.Guid);
+                Node node;
+                if (nodeData.NodeType == BTNodeType.Action)
+                {
+                    node = BTGraphNodeFactory.CreateNode(nodeData.Position, nodeData.Guid, nodeData.PropertyData);
+                }
+                else
+                {
+                    node = BTGraphNodeFactory.CreateNode(nodeData.NodeType, nodeData.Position, nodeData.Guid);
+                }
 
                 nodeDict.Add(nodeData.Guid, node);
 

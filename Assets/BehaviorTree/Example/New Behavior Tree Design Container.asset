@@ -10,6 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d35067a108d20b343af18e531021432d, type: 3}
-  m_Name: Test Behavior Tree Design Container
+  m_Name: New Behavior Tree Design Container
   m_EditorClassIdentifier: 
-  nodeDataList: []
+  nodeDataList:
+  - m_NodeType: 0
+    m_NodeGuid: 3d4c09c3-c78e-4f0c-ad8c-6171b64987d5
+  - m_NodeType: 1
+    m_NodeGuid: 303148f4-c860-4dbc-a813-eb4c54b722f0

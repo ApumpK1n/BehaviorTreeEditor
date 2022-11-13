@@ -9,10 +9,18 @@ namespace Pumpkin.AI.BehaviorTree
 {
     public class BTGraphActionNode<T> : BTGraphNode<BTGraphActionData<T>>, ISavable where T : SerializableProperty, new()
     {
+        private VisualElement m_PropertyContainer;
 
-        public BTGraphActionNode(Vector2 pos, string guid = "") : base(pos, guid)
+        private Func<object> ActionNodePropetyConstructFunc;
+
+        private T m_PropertyData;
+
+        public BTGraphActionNode(Vector2 pos, string guid = "", T property = null) : base(pos, guid)
         {
             mainContainer.style.backgroundColor = new StyleColor(new Color(50f / 255f, 50f / 255f, 50f / 255f));
+
+            if (property != null) m_PropertyData = property;
+            else m_PropertyData = new T();
 
             DrawProperties();
         }
@@ -20,10 +28,10 @@ namespace Pumpkin.AI.BehaviorTree
         private void DrawProperties()
         {
 
-            VisualElement container = new VisualElement();
-            FieldInfo[] fieldInfoList = m_NodeData.PropertyType.GetFields();
+            m_PropertyContainer = new VisualElement();
+            FieldInfo[] fieldInfoList = m_PropertyData.GetType().GetFields();
 
-            T defaultPropety = new T();
+            Action<object> bindDatAction = null;
 
             foreach (var fieldInfo in fieldInfoList)
             {
@@ -42,17 +50,27 @@ namespace Pumpkin.AI.BehaviorTree
                 label.style.whiteSpace = WhiteSpace.Normal;
                 childContainer.Add(label);
 
-                VisualElement field = DrawPropField(fieldInfo, defaultPropety);
+                VisualElement field = DrawPropField(fieldInfo, m_PropertyData, ref bindDatAction);
+
                 StylizePropField(field);
                 childContainer.Add(field);
 
-                //indPropDataFn += bindPropFieldFn;
+               
 
-                container.Add(childContainer);
+                m_PropertyContainer.Add(childContainer);
             }
+
+            ActionNodePropetyConstructFunc = () =>
+            {
+                var prop = Activator.CreateInstance(typeof(T));
+                bindDatAction?.Invoke(prop);
+                return prop;
+            };
+
+            mainContainer.Add(m_PropertyContainer);
         }
 
-        private VisualElement DrawPropField(FieldInfo fieldInfo, object propFieldData)
+        private VisualElement DrawPropField(FieldInfo fieldInfo, object propFieldData, ref Action<object> bindDatAction)
         {
             var type = fieldInfo.FieldType;
 
@@ -69,6 +87,7 @@ namespace Pumpkin.AI.BehaviorTree
                 {
                     value = (string)fieldInfo.GetValue(propFieldData)
                 };
+                bindDatAction += prop => fieldInfo.SetValue(prop, field.value);
                 return field;
             }
 
@@ -78,15 +97,14 @@ namespace Pumpkin.AI.BehaviorTree
                 {
                     value = (int)fieldInfo.GetValue(propFieldData)
                 };
+                bindDatAction += prop => fieldInfo.SetValue(prop, field.value);
                 return field;
             }
 
             if (type == typeof(float))
             {
-                var field = new FloatField
-                {
-                    value = (float)fieldInfo.GetValue(propFieldData)
-                };
+                var field = new FloatField { value = (float)fieldInfo.GetValue(propFieldData) };
+                bindDatAction += prop => fieldInfo.SetValue(prop, field.value);
                 return field;
             }
 
@@ -96,6 +114,7 @@ namespace Pumpkin.AI.BehaviorTree
                 {
                     value = (bool)fieldInfo.GetValue(propFieldData)
                 };
+                bindDatAction += prop => fieldInfo.SetValue(prop, field.value);
                 return field;
             }
 
@@ -105,12 +124,15 @@ namespace Pumpkin.AI.BehaviorTree
                 {
                     value = (Vector3)fieldInfo.GetValue(propFieldData)
                 };
+                bindDatAction += prop => fieldInfo.SetValue(prop, field.value);
                 return field;
             }
 
             if (typeof(ScriptableObject).IsAssignableFrom(type) || type.IsInterface)
             {
-                return new ObjectField() { objectType = type };
+                var field = new ObjectField() { objectType = type };
+                bindDatAction += prop => fieldInfo.SetValue(prop, field.value);
+                return field;
             }
 
             return new Label($"Unsupported type {type}");
@@ -123,8 +145,11 @@ namespace Pumpkin.AI.BehaviorTree
 
         public override void Save(BehaviorTreeDesignContainer designContainer)
         {
-            //designContainer.AddNodeData(
-            //   new GraphSerializableNodeData(GetPosition().position, m_Guid, GetParentGuid(inputContainer), m_NodeData.NodeType));
+
+            T serializableProperty = (T)ActionNodePropetyConstructFunc();
+
+            designContainer.AddNodeData(
+               new GraphSerializableNodeData(GetPosition().position, m_Guid, GetParentGuid(inputContainer), m_NodeData.NodeType, serializableProperty));
         }
     }
 }

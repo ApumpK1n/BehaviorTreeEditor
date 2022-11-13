@@ -59,7 +59,7 @@ namespace Pumpkin.AI.BehaviorTree
                 new SearchTreeGroupEntry(new GUIContent("Action"), 1),
                 new SearchTreeEntry(new GUIContent("Wait", m_Indentation))
                 {
-                    userData = typeof(BTGraphActionData<ActionWaitProperty>),
+                    userData = typeof(ActionWaitProperty),
                     level = 2
                 },
             };
@@ -70,8 +70,11 @@ namespace Pumpkin.AI.BehaviorTree
         public bool OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
         {
             var nodeSpawnPos = ContextToLocalMousePos(context.screenMousePosition);
-            var userDataType = searchTreeEntry.userData as Type;
-            var nodeCreationMethodName = nameof(BTGraphNodeFactory.CreateNodeGeneric);
+            Type userDataType = searchTreeEntry.userData as Type;
+            
+            var nodeCreationMethodName =
+                typeof(SerializableProperty).IsAssignableFrom(userDataType) ? nameof(BTGraphNodeFactory.CreateActionNodeGeneric)
+                 : nameof(BTGraphNodeFactory.CreateNodeGeneric);
             var methodInfo = typeof(BTGraphNodeFactory).GetMethod(nodeCreationMethodName);
             var genericMethodInfo = methodInfo.MakeGenericMethod(userDataType);
             var node = genericMethodInfo.Invoke(null, new object[] { nodeSpawnPos});

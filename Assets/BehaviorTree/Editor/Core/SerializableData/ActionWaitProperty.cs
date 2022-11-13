@@ -2,8 +2,9 @@
 
 namespace Pumpkin.AI.BehaviorTree
 {
+    [Serializable]
     public class ActionWaitProperty : SerializableProperty
     {
-        public uint Delay;
+        public int Delay;
     }
 }

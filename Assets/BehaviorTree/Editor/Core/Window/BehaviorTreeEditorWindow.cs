@@ -1,9 +1,11 @@
 using System;
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using UnityEditor;
+using System.Linq;
 
 namespace Pumpkin.AI.BehaviorTree
 {
@@ -25,9 +27,16 @@ namespace Pumpkin.AI.BehaviorTree
             GetWindow<BehaviorTreeEditorWindow>("Behavior Tree");
         }
 
+        private void OnDisable()
+        {
+            rootVisualElement.Remove(m_BTGraphView);
+            rootVisualElement.Remove(m_Toolbar);
+        }
+
         private void CreateGUI()
         {
             m_BTGraphView = CreateGraphView();
+            m_BTGraphView.graphViewChanged += GraphViewChanged;
 
             m_BTBlackboard = CreateBlackboard(m_BTGraphView, "Shared Variables", new Rect(10, 30, 250, 250));
             m_BTBlackboard.visible =true;
@@ -135,6 +144,20 @@ namespace Pumpkin.AI.BehaviorTree
         private void OnCreateNode(Node node)
         {
             m_BTGraphView.AddNodeGraphElement(node);
+        }
+
+        private GraphViewChange GraphViewChanged(GraphViewChange graphViewChange)
+        {
+
+            if (graphViewChange.edgesToCreate != null && graphViewChange.edgesToCreate.Count > 0)
+            {
+                foreach (var edge in graphViewChange.edgesToCreate)
+                {
+                    m_BTGraphView.AddNodeGraphElement(edge);
+                }
+            }
+          
+            return graphViewChange;
         }
     }
 }

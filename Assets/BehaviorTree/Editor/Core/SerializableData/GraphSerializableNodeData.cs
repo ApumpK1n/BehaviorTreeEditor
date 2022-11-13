@@ -11,6 +11,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         private Vector2 m_Position;
 
+        [SerializeField]
         private string m_NodeGuid;
 
         private string m_NodeParentGuid;
@@ -22,6 +23,8 @@ namespace Pumpkin.AI.BehaviorTree
         public BTNodeType NodeType => m_NodeType;
         public string Guid => m_NodeGuid;
         public string ParentGuid => m_NodeParentGuid;
+
+        public SerializableProperty PropertyData => m_Property;
 
         public GraphSerializableNodeData(Vector2 position, string nodeGuid, string nodeParentguid, BTNodeType nodeType, SerializableProperty serializableProperty=null)
         {
