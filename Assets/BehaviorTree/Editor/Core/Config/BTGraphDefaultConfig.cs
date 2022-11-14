@@ -12,5 +12,6 @@ namespace Pumpkin.AI.BehaviorTree
 
         public static string GraphActionName = "Action";
 
+        public static string DefaultActionConfigPath = "Config/Default BT Graph Action Config";
     }
 }

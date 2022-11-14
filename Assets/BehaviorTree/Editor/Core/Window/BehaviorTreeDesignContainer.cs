@@ -18,12 +18,10 @@ namespace Pumpkin.AI.BehaviorTree
                 return nodeDataList;
             }
         }
-        //public List<BTTaskData> taskDataList = new List<BTTaskData>();
 
         public void Clear()
         {
             nodeDataList.Clear();
-            //taskDataList.Clear();
         }
 
 

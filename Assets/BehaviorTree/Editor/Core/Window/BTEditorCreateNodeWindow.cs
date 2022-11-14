@@ -12,8 +12,9 @@ namespace Pumpkin.AI.BehaviorTree
         private List<Type> taskTypes = new List<Type>();
         private Action<Node> OnEntrySelected;
         private Func<Vector2, Vector2> ContextToLocalMousePos;
-        //private BTTaskReferenceContainer _taskRefContainer;
         private Texture2D m_Indentation;
+
+        private BTGraphActionConfig m_GraphActionConfig; // Action节点配置信息
 
         public void Init(Action<Node> entrySelectCallback, Func<Vector2, Vector2> contextToLocalMousePos)
         {
@@ -24,20 +25,7 @@ namespace Pumpkin.AI.BehaviorTree
             m_Indentation.SetPixel(0, 0, new Color(0, 0, 0, 0));
             m_Indentation.Apply();
 
-            //_taskRefContainer = Resources.Load<BTTaskReferenceContainer>(BTTaskReferenceContainer.TASK_REF_CONTAINER_PATH);
-
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            //foreach (var assembly in assemblies)
-            //{
-            //    var types = assembly.GetTypes()
-            //                        .Where(type => typeof(BTBaseTask).IsAssignableFrom(type)
-            //                                        && type != typeof(BTBaseTask)
-            //                                        && !type.IsGenericType
-            //                                        && type != typeof(BTTaskNull));
-
-            //    taskTypes.AddRange(types);
-            //}
+            m_GraphActionConfig = Resources.Load<BTGraphActionConfig>(BTGraphDefaultConfig.DefaultActionConfigPath);
         }
 
         public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
@@ -57,12 +45,28 @@ namespace Pumpkin.AI.BehaviorTree
                     level = 2
                 },
                 new SearchTreeGroupEntry(new GUIContent("Action"), 1),
-                new SearchTreeEntry(new GUIContent("Wait", m_Indentation))
-                {
-                    userData = typeof(ActionWaitProperty),
-                    level = 2
-                },
+               
             };
+
+            if (m_GraphActionConfig != null && m_GraphActionConfig.ActionInfos.Count > 0)
+            {
+                foreach (var info in m_GraphActionConfig.ActionInfos)
+                {
+                    Type type = Type.GetType(info.PropertyType);
+                    if (type != null)
+                    {
+                        SearchTreeEntry entry = new SearchTreeEntry(new GUIContent(info.Name, m_Indentation))
+                        {
+                            userData = type,
+                            level = 2
+                        };
+                        tree.Add(entry);
+                    }
+                }
+            }
+
+           
+            
 
             return tree;
         }
@@ -71,7 +75,7 @@ namespace Pumpkin.AI.BehaviorTree
         {
             var nodeSpawnPos = ContextToLocalMousePos(context.screenMousePosition);
             Type userDataType = searchTreeEntry.userData as Type;
-            
+
             var nodeCreationMethodName =
                 typeof(SerializableProperty).IsAssignableFrom(userDataType) ? nameof(BTGraphNodeFactory.CreateActionNodeGeneric)
                  : nameof(BTGraphNodeFactory.CreateNodeGeneric);

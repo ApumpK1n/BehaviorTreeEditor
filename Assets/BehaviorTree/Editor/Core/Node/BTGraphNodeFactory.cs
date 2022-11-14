@@ -10,7 +10,7 @@ namespace Pumpkin.AI.BehaviorTree
             return new BTGraphNode<T>(pos);
         }
 
-        public static Node CreateActionNodeGeneric<T>(Vector2 pos) where T : SerializableProperty, new()
+        public static Node CreateActionNodeGeneric<T>(Vector2 pos, string name) where T : SerializableProperty, new()
         {
             return new BTGraphActionNode<T>(pos);
         }
