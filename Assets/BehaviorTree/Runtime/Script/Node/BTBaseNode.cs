@@ -16,8 +16,16 @@ namespace Pumpkin.AI.BehaviorTree
         Root,
         Sequencer,
         Selector,
+        Parallel,
         Null,
         Action
+    }
+
+    public enum Strategy
+    {
+
+        FAIL_ON_ONE,
+        FAIL_ON_ALL,
     }
 
     public abstract class BTBaseNode

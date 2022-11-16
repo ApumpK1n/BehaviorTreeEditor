@@ -6,38 +6,32 @@ namespace Pumpkin.AI.BehaviorTree
     [Serializable]
     public class GraphSerializableNodeData
     {
-        [SerializeField]
-        private BTNodeType m_NodeType;
+        public BTNodeType NodeType;
+        public Vector2 Position;
+        public string Name;
+        public string Guid;
+        public string ParentGuid;
+        public PropertySerializable PropertyData;
 
-        private Vector2 m_Position;
-
-        [SerializeField]
-        private string m_NodeGuid;
-
-        private string m_NodeParentGuid;
-
-        [SerializeField]
-        private SerializableProperty m_Property;
-
-        public Vector2 Position => m_Position;
-        public BTNodeType NodeType => m_NodeType;
-        public string Guid => m_NodeGuid;
-        public string ParentGuid => m_NodeParentGuid;
-
-        public SerializableProperty PropertyData => m_Property;
-
-        public GraphSerializableNodeData(Vector2 position, string nodeGuid, string nodeParentguid, BTNodeType nodeType, SerializableProperty serializableProperty=null)
+        public GraphSerializableNodeData(string name, Vector2 position, string nodeGuid, string nodeParentguid, BTNodeType nodeType, PropertySerializable serializableProperty =null)
         {
-            m_Position = position;
-            m_NodeType = nodeType;
+            Name = name;
+            Position = position;
+            NodeType = nodeType;
 
-            m_NodeGuid = nodeGuid;
-            m_NodeParentGuid = nodeParentguid;
+            Guid = nodeGuid;
+            ParentGuid = nodeParentguid;
 
-            m_Property = serializableProperty;
+            PropertyData = serializableProperty;
         }
     }
 
+    [Serializable]
+    public class PropertySerializable
+    {
+        public SerializableProperty Property;
+        public string PropertyType;
+    }
 
     /// <summary>
     /// 节点连接数据

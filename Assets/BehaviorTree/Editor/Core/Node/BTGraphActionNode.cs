@@ -15,11 +15,11 @@ namespace Pumpkin.AI.BehaviorTree
 
         private T m_PropertyData;
 
-        public BTGraphActionNode(Vector2 pos, string guid = "", T property = null) : base(pos, guid)
+        public BTGraphActionNode(Vector2 pos, string name, string guid = "", T property = null) : base(pos, name, guid)
         {
             mainContainer.style.backgroundColor = new StyleColor(new Color(50f / 255f, 50f / 255f, 50f / 255f));
 
-            if (property != null) m_PropertyData = property;
+            if (property != null) m_PropertyData = (T)property;
             else m_PropertyData = new T();
 
             DrawProperties();
@@ -148,8 +148,14 @@ namespace Pumpkin.AI.BehaviorTree
 
             T serializableProperty = (T)ActionNodePropetyConstructFunc();
 
-            designContainer.AddNodeData(
-               new GraphSerializableNodeData(GetPosition().position, m_Guid, GetParentGuid(inputContainer), m_NodeData.NodeType, serializableProperty));
+            var propertyStruct = new PropertySerializable
+            {
+                Property = serializableProperty,
+                PropertyType = serializableProperty.GetType().ToString()
+            };
+
+            var graphSerializableNodeData = new GraphSerializableNodeData(m_Name, GetPosition().position, m_Guid, GetParentGuid(inputContainer), m_NodeData.NodeType, propertyStruct);
+            designContainer.AddNodeData(graphSerializableNodeData);
         }
     }
 }

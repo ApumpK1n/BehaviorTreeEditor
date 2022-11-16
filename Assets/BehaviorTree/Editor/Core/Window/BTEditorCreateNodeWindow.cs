@@ -33,6 +33,13 @@ namespace Pumpkin.AI.BehaviorTree
             var tree = new List<SearchTreeEntry>()
             {
                 new SearchTreeGroupEntry(new GUIContent("Add Node")),
+
+                new SearchTreeEntry(new GUIContent(BTGraphDefaultConfig.GraphNullName, m_Indentation))
+                {
+                    userData = typeof(BTGraphNullData),
+                    level = 1
+                },
+
                 new SearchTreeGroupEntry(new GUIContent("Composite"), 1),
                 new SearchTreeEntry(new GUIContent(BTGraphDefaultConfig.GraphSequencerName, m_Indentation))
                 {
@@ -81,7 +88,16 @@ namespace Pumpkin.AI.BehaviorTree
                  : nameof(BTGraphNodeFactory.CreateNodeGeneric);
             var methodInfo = typeof(BTGraphNodeFactory).GetMethod(nodeCreationMethodName);
             var genericMethodInfo = methodInfo.MakeGenericMethod(userDataType);
-            var node = genericMethodInfo.Invoke(null, new object[] { nodeSpawnPos});
+
+            object node;
+            if (typeof(SerializableProperty).IsAssignableFrom(userDataType))
+            {
+                node = genericMethodInfo.Invoke(null, new object[] { nodeSpawnPos, searchTreeEntry.name });
+            }
+            else
+            {
+                node = genericMethodInfo.Invoke(null, new object[] { nodeSpawnPos, string.Empty});
+            }
             OnEntrySelected?.Invoke(node as Node);
             return true;
         }

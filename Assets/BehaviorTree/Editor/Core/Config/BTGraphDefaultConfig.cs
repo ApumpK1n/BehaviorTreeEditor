@@ -10,7 +10,11 @@ namespace Pumpkin.AI.BehaviorTree
 
         public static string GraphSequencerName = "Sequencer";
 
+        public static string GraphParallelName = "Parallel";
+
         public static string GraphActionName = "Action";
+
+        public static string GraphNullName = "Null";
 
         public static string DefaultActionConfigPath = "Config/Default BT Graph Action Config";
     }

@@ -13,9 +13,17 @@ MonoBehaviour:
   m_Name: New Behavior Tree Design Container
   m_EditorClassIdentifier: 
   nodeDataList:
-  - m_NodeType: 0
-    m_NodeGuid: 3d4c09c3-c78e-4f0c-ad8c-6171b64987d5
-  - m_NodeType: 1
-    m_NodeGuid: 303148f4-c860-4dbc-a813-eb4c54b722f0
-  - m_NodeType: 4
-    m_NodeGuid: 78552290-9755-48b1-8fe1-c6ccfe831164
+  - NodeType: 0
+    Position: {x: 100, y: 300}
+    Name: 
+    Guid: 390625f5-fcc1-43ac-9024-9bf7d514c76b
+    ParentGuid: 
+    PropertyData:
+      PropertyType: 
+  - NodeType: 5
+    Position: {x: 376.8, y: 210.4}
+    Name: Wait
+    Guid: 954fd77a-18da-470e-a687-b3e365df2088
+    ParentGuid: 390625f5-fcc1-43ac-9024-9bf7d514c76b
+    PropertyData:
+      PropertyType: Pumpkin.AI.BehaviorTree.ActionWaitProperty

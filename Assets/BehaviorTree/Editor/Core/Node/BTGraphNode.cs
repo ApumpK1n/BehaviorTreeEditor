@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.Experimental.GraphView;
 using System.Linq;
+using System;
 
 
 namespace Pumpkin.AI.BehaviorTree
@@ -19,12 +20,16 @@ namespace Pumpkin.AI.BehaviorTree
         protected T m_NodeData;
 
         protected string m_Guid;
+
+        protected string m_Name;
         public string Guid => m_Guid;
 
-        public BTGraphNode(Vector2 pos, string guid = "")
+        public BTGraphNode(Vector2 pos, string name="", string guid = "")
         {
             styleSheets.Add(Resources.Load<StyleSheet>("Stylesheets/BTGraphNode"));
             AddToClassList("bold-text");
+
+            m_Name = name;
 
             m_NodeData = new T();
             m_Guid = string.IsNullOrEmpty(guid) ? System.Guid.NewGuid().ToString() : guid;
@@ -116,7 +121,8 @@ namespace Pumpkin.AI.BehaviorTree
             icon.style.marginRight = 5;
             container.Add(icon);
 
-            var titleLabel = new Label(m_NodeData.Name);
+            string name = String.IsNullOrEmpty(m_Name) ? m_NodeData.Name : m_Name; 
+            var titleLabel = new Label(name);
             titleLabel.style.unityTextAlign = TextAnchor.MiddleCenter;
             titleLabel.style.fontSize = 14;
             container.Add(titleLabel);
@@ -149,7 +155,7 @@ namespace Pumpkin.AI.BehaviorTree
         public virtual void Save(BehaviorTreeDesignContainer designContainer)
         {
             designContainer.AddNodeData(
-               new GraphSerializableNodeData(GetPosition().position, m_Guid, GetParentGuid(inputContainer), m_NodeData.NodeType));
+               new GraphSerializableNodeData(m_Name, GetPosition().position, m_Guid, GetParentGuid(inputContainer), m_NodeData.NodeType));
         }
 
         protected string GetParentGuid(VisualElement inputContainer)

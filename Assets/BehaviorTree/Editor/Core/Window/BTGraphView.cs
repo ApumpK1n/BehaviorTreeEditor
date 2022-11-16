@@ -47,7 +47,7 @@ namespace Pumpkin.AI.BehaviorTree
 
             if (designContainer.NodeDataList == null || designContainer.NodeDataList.Count == 0)
             {
-                var root = BTGraphNodeFactory.CreateNode(BTNodeType.Root, DefaultRootSpawnPos, String.Empty);
+                var root = BTGraphNodeFactory.CreateNode(BTNodeType.Root, DefaultRootSpawnPos, String.Empty, String.Empty);
                 AddNodeGraphElement(root);
                 return;
             }
@@ -60,11 +60,12 @@ namespace Pumpkin.AI.BehaviorTree
                 Node node;
                 if (nodeData.NodeType == BTNodeType.Action)
                 {
-                    node = BTGraphNodeFactory.CreateNode(nodeData.Position, nodeData.Guid, nodeData.PropertyData);
+
+                    node = BTGraphNodeFactory.CreateNode(nodeData.Position, nodeData.Name, nodeData.Guid, nodeData.PropertyData);
                 }
                 else
                 {
-                    node = BTGraphNodeFactory.CreateNode(nodeData.NodeType, nodeData.Position, nodeData.Guid);
+                    node = BTGraphNodeFactory.CreateNode(nodeData.NodeType, nodeData.Position, nodeData.Name, nodeData.Guid);
                 }
 
                 nodeDict.Add(nodeData.Guid, node);
