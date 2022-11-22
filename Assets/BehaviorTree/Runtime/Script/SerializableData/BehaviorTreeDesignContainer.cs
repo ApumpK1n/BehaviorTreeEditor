@@ -1,7 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 
 namespace Pumpkin.AI.BehaviorTree
 {
@@ -19,6 +22,9 @@ namespace Pumpkin.AI.BehaviorTree
             }
         }
 
+        public int Length => nodeDataList.Count;
+
+#if UNITY_EDITOR
         public void Clear()
         {
             nodeDataList.Clear();
@@ -33,6 +39,7 @@ namespace Pumpkin.AI.BehaviorTree
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
+#endif
     }
 }
 

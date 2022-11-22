@@ -262,14 +262,18 @@ namespace Pumpkin.AI.BehaviorTree
             {
                 var value = (Enum)fieldInfo.GetValue(m_PropertyData);
                 var field = new EnumField(value);
-                //{
-                //    value//(Enum)Enum.ToObject(type, )
-                //};
                 bindDatAction += prop => fieldInfo.SetValue(prop, field.value);
                 return field;
             }
 
             if (typeof(ScriptableObject).IsAssignableFrom(type) || type.IsInterface)
+            {
+                var field = new ObjectField() { objectType = type };
+                bindDatAction += prop => fieldInfo.SetValue(prop, field.value);
+                return field;
+            }
+
+            if (typeof(MonoScript).IsAssignableFrom(type))
             {
                 var field = new ObjectField() { objectType = type };
                 bindDatAction += prop => fieldInfo.SetValue(prop, field.value);

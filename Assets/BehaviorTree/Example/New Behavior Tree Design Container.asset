@@ -49,3 +49,9 @@ MonoBehaviour:
     Guid: af80d871-118c-4826-99a8-0de5a3fdd631
     ParentGuid: 5e68a9ee-cb6b-416b-94d3-ff2d2db7e5d0
     PropertyJson: '{"Strategy":1}'
+  - NodeType: 5
+    Position: {x: 816, y: 416}
+    Name: Script
+    Guid: 849c2457-1137-4d13-8785-d085818325a1
+    ParentGuid: af80d871-118c-4826-99a8-0de5a3fdd631
+    PropertyJson: '{"MonoScript":{"instanceID":0}}'
