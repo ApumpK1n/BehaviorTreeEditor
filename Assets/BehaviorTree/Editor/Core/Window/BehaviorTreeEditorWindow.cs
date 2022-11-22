@@ -21,7 +21,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         private Toolbar m_Toolbar; // ¹¤¾ßÀ¸
 
-
+        private DataManager m_DataManager;
 
         [MenuItem("Window/Pumpkin/Behavior Tree")]
         public static void Init()
@@ -37,6 +37,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         private void CreateGUI()
         {
+            m_DataManager = new DataManager();
             m_BTGraphView = CreateGraphView();
             m_BTGraphView.graphViewChanged += GraphViewChanged;
 
@@ -59,7 +60,7 @@ namespace Pumpkin.AI.BehaviorTree
         {
             var emptyGraphView = new BTGraphView();
             emptyGraphView.StretchToParentSize();
-
+            emptyGraphView.SetDataManager(m_DataManager);
             return emptyGraphView;
         }
 
@@ -89,7 +90,7 @@ namespace Pumpkin.AI.BehaviorTree
                 return graphView.WorldToLocal(worldPos);
             };
 
-            window.Init(OnCreateNode, contextToLocalMousePos);
+            window.Init(OnCreateNode, contextToLocalMousePos, m_DataManager);
             return window;
         }
 

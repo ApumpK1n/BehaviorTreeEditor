@@ -8,6 +8,6 @@ namespace Pumpkin.AI.BehaviorTree
 {
     public class ParallelProperty : SerializableProperty
     {
-         
+        
     }
 }

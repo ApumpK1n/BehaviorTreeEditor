@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33cd7b438f053b04f8d75984198b9ea1, type: 3}
+  m_Name: New BT Graph Node Config
+  m_EditorClassIdentifier: 
+  MainStyleProperties:
+  - Name: Test
+    NodeType: 4
+    NodeBelongTo: 0
+    CapacityIn: 0
+    CapacityOut: 0
+    PropertyScript: {fileID: 0}
+  - Name: Root
+    NodeType: 0
+    NodeBelongTo: 0
+    CapacityIn: 0
+    CapacityOut: 1
+    PropertyScript: {fileID: 0}
+  - Name: Null
+    NodeType: 4
+    NodeBelongTo: 1
+    CapacityIn: 1
+    CapacityOut: 1
+    PropertyScript: {fileID: 0}
+  - Name: Wait
+    NodeType: 5
+    NodeBelongTo: 3
+    CapacityIn: 1
+    CapacityOut: 0
+    PropertyScript: {fileID: 11500000, guid: b48d256636905ef4abb7167e2833b45c, type: 3}
+  - Name: Selector
+    NodeType: 2
+    NodeBelongTo: 2
+    CapacityIn: 1
+    CapacityOut: 2
+    PropertyScript: {fileID: 0}

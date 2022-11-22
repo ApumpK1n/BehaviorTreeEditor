@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pumpkin.AI.BehaviorTree
@@ -11,26 +12,17 @@ namespace Pumpkin.AI.BehaviorTree
         public string Name;
         public string Guid;
         public string ParentGuid;
-        public PropertySerializable PropertyData;
+        public string PropertyJson;
 
-        public GraphSerializableNodeData(string name, Vector2 position, string nodeGuid, string nodeParentguid, BTNodeType nodeType, PropertySerializable serializableProperty =null)
+        public GraphSerializableNodeData(string name, Vector2 position, string nodeGuid, string nodeParentguid, BTNodeType nodeType, string propertyJson)
         {
             Name = name;
             Position = position;
             NodeType = nodeType;
-
             Guid = nodeGuid;
             ParentGuid = nodeParentguid;
-
-            PropertyData = serializableProperty;
+            PropertyJson = propertyJson;
         }
-    }
-
-    [Serializable]
-    public class PropertySerializable
-    {
-        public SerializableProperty Property;
-        public string PropertyType;
     }
 
     /// <summary>

@@ -14,16 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeDataList:
   - NodeType: 0
-    Position: {x: 100, y: 300}
-    Name: 
-    Guid: 390625f5-fcc1-43ac-9024-9bf7d514c76b
+    Position: {x: 48, y: 147.2}
+    Name: Root
+    Guid: e59b1c11-88f2-4782-b754-79daf24d5f4d
     ParentGuid: 
-    PropertyData:
-      PropertyType: 
+    PropertyJson: 
+  - NodeType: 4
+    Position: {x: 237.6, y: 156.8}
+    Name: Null
+    Guid: 9943b101-4c38-49a5-8843-07588c46f446
+    ParentGuid: e59b1c11-88f2-4782-b754-79daf24d5f4d
+    PropertyJson: 
+  - NodeType: 2
+    Position: {x: 380.8, y: 165.59999}
+    Name: Selector
+    Guid: 5e68a9ee-cb6b-416b-94d3-ff2d2db7e5d0
+    ParentGuid: 9943b101-4c38-49a5-8843-07588c46f446
+    PropertyJson: 
   - NodeType: 5
-    Position: {x: 376.8, y: 210.4}
+    Position: {x: 613.6, y: 80.8}
     Name: Wait
-    Guid: 954fd77a-18da-470e-a687-b3e365df2088
-    ParentGuid: 390625f5-fcc1-43ac-9024-9bf7d514c76b
-    PropertyData:
-      PropertyType: Pumpkin.AI.BehaviorTree.ActionWaitProperty
+    Guid: 0b30f742-cf5e-412f-b7fb-d02b62f38f9e
+    ParentGuid: 5e68a9ee-cb6b-416b-94d3-ff2d2db7e5d0
+    PropertyJson: '{"Delay":5}'
+  - NodeType: 5
+    Position: {x: 621.6, y: 245.59999}
+    Name: Wait
+    Guid: 90faa360-6535-41d6-afdb-42ef7114425f
+    ParentGuid: 5e68a9ee-cb6b-416b-94d3-ff2d2db7e5d0
+    PropertyJson: '{"Delay":10}'

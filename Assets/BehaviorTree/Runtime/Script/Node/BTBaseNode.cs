@@ -28,6 +28,15 @@ namespace Pumpkin.AI.BehaviorTree
         FAIL_ON_ALL,
     }
 
+    public enum NodeBelongTo
+    {
+        Hide,
+        Base,
+        Composite,
+        Action,
+        Custom,
+    }
+
     public abstract class BTBaseNode
     {
         public abstract BTNodeType NodeType { get; }

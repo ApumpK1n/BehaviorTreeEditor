@@ -10,6 +10,7 @@ namespace Pumpkin.AI.BehaviorTree
         private Vector2 DefaultRootSpawnPos = new Vector2(100f, 300f);
 
         private List<GraphElement> m_NodeGraphElements = new List<GraphElement>();
+        private DataManager m_DataManager;
 
         public override List<Port> GetCompatiblePorts(Port startPort, NodeAdapter nodeAdapter)
         {
@@ -24,6 +25,11 @@ namespace Pumpkin.AI.BehaviorTree
             });
 
             return compatiblePorts;
+        }
+
+        public void SetDataManager(DataManager dataManager)
+        {
+            m_DataManager = dataManager;
         }
 
         public void SaveNodes(BehaviorTreeDesignContainer designContainer)
@@ -47,7 +53,8 @@ namespace Pumpkin.AI.BehaviorTree
 
             if (designContainer.NodeDataList == null || designContainer.NodeDataList.Count == 0)
             {
-                var root = BTGraphNodeFactory.CreateNode(BTNodeType.Root, DefaultRootSpawnPos, String.Empty, String.Empty);
+                NodeProperty nodeProperty = m_DataManager.NodeConfigFile.GetNodePropertyWithName(BTGraphDefaultConfig.GraphRootName);
+                var root = BTGraphNodeFactory.CreateNode(DefaultRootSpawnPos, nodeProperty, null);
                 AddNodeGraphElement(root);
                 return;
             }
@@ -57,16 +64,9 @@ namespace Pumpkin.AI.BehaviorTree
 
             foreach (var nodeData in designContainer.NodeDataList)
             {
-                Node node;
-                if (nodeData.NodeType == BTNodeType.Action)
-                {
+                NodeProperty nodeProperty = m_DataManager.NodeConfigFile.GetNodePropertyWithName(nodeData.Name);
+                Node node = BTGraphNodeFactory.CreateNode(nodeData.Position, nodeProperty, nodeData);
 
-                    node = BTGraphNodeFactory.CreateNode(nodeData.Position, nodeData.Name, nodeData.Guid, nodeData.PropertyData);
-                }
-                else
-                {
-                    node = BTGraphNodeFactory.CreateNode(nodeData.NodeType, nodeData.Position, nodeData.Name, nodeData.Guid);
-                }
 
                 nodeDict.Add(nodeData.Guid, node);
 

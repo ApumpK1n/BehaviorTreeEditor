@@ -6,40 +6,26 @@ namespace Pumpkin.AI.BehaviorTree
 {
     public static class BTGraphNodeFactory
     {
-        public static Node CreateNodeGeneric<T>(Vector2 pos, string name) where T : IBTGraphNodeData, new()
+        public static Node CreateNodeGeneric<T>(Vector2 pos, NodeProperty nodeProperty, GraphSerializableNodeData graphSerializableNodeData) where T : SerializableProperty, new()
         {
-            return new BTGraphNode<T>(pos, name);
-        }
-
-        public static Node CreateActionNodeGeneric<T>(Vector2 pos, string name) where T : SerializableProperty, new()
-        {
-            return new BTGraphActionNode<T>(pos, name);
+            return new BTGraphNode<T>(pos, nodeProperty, graphSerializableNodeData);
         }
 
 
-        public static Node CreateNode(BTNodeType nodeType, Vector2 pos, string name, string guid)
+        public static Node CreateNode(Vector2 pos, NodeProperty nodeProperty, GraphSerializableNodeData graphSerializableNodeData)
         {
-            switch (nodeType)
+
+            Type propertyType = typeof(SerializableProperty);
+            if (nodeProperty.PropertyScript != null)
             {
-                case BTNodeType.Root:
-                    return new BTGraphNode<BTGraphRootData>(pos, name, guid);
-                case BTNodeType.Sequencer:
-                    return new BTGraphNode<BTGraphSequencerData>(pos, name, guid);
-                case BTNodeType.Selector:
-                    return new BTGraphNode<BTGraphSelectorData>(pos, name, guid);
-                default:
-                    return new BTGraphNode<BTGraphNullData>(pos, name, guid);
+                propertyType = nodeProperty.PropertyScript.GetClass();
             }
-        }
+            var nodeCreationMethodName = nameof(BTGraphNodeFactory.CreateNodeGeneric);
+            var methodInfo = typeof(BTGraphNodeFactory).GetMethod(nodeCreationMethodName);
+            var genericMethodInfo = methodInfo.MakeGenericMethod(propertyType);
 
-        public static Node CreateNode(Vector2 pos, string name, string guid, PropertySerializable property)
-        {
-            Type type = Type.GetType(property.PropertyType);
-
-            dynamic propertyData = Convert.ChangeType(property, type);
-
-            var leafType = typeof(BTGraphActionNode<>).MakeGenericType(type);
-            return System.Activator.CreateInstance(leafType, new object[] { pos, name, guid, propertyData }) as Node;
+            object node = genericMethodInfo.Invoke(null, new object[] { pos, nodeProperty, graphSerializableNodeData}); ;
+            return node as Node;
         }
     }
 }

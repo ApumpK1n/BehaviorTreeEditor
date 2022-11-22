@@ -16,7 +16,9 @@ namespace Pumpkin.AI.BehaviorTree
 
         private BTGraphActionConfig m_GraphActionConfig; // Action节点配置信息
 
-        public void Init(Action<Node> entrySelectCallback, Func<Vector2, Vector2> contextToLocalMousePos)
+        private DataManager m_DataMamager;
+
+        public void Init(Action<Node> entrySelectCallback, Func<Vector2, Vector2> contextToLocalMousePos, DataManager dataManager)
         {
             OnEntrySelected = entrySelectCallback;
             ContextToLocalMousePos = contextToLocalMousePos;
@@ -26,6 +28,8 @@ namespace Pumpkin.AI.BehaviorTree
             m_Indentation.Apply();
 
             m_GraphActionConfig = Resources.Load<BTGraphActionConfig>(BTGraphDefaultConfig.DefaultActionConfigPath);
+
+            m_DataMamager = dataManager;
         }
 
         public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
@@ -33,47 +37,31 @@ namespace Pumpkin.AI.BehaviorTree
             var tree = new List<SearchTreeEntry>()
             {
                 new SearchTreeGroupEntry(new GUIContent("Add Node")),
-
-                new SearchTreeEntry(new GUIContent(BTGraphDefaultConfig.GraphNullName, m_Indentation))
-                {
-                    userData = typeof(BTGraphNullData),
-                    level = 1
-                },
-
-                new SearchTreeGroupEntry(new GUIContent("Composite"), 1),
-                new SearchTreeEntry(new GUIContent(BTGraphDefaultConfig.GraphSequencerName, m_Indentation))
-                {
-                    userData = typeof(BTGraphSequencerData),
-                    level = 2
-                },
-                new SearchTreeEntry(new GUIContent(BTGraphDefaultConfig.GraphSelectorName, m_Indentation))
-                {
-                    userData = typeof(BTGraphSelectorData),
-                    level = 2
-                },
-                new SearchTreeGroupEntry(new GUIContent("Action"), 1),
                
             };
 
-            if (m_GraphActionConfig != null && m_GraphActionConfig.ActionInfos.Count > 0)
+            
+
+            foreach (NodeBelongTo belongTo in (NodeBelongTo[])Enum.GetValues(typeof(NodeBelongTo)))
             {
-                foreach (var info in m_GraphActionConfig.ActionInfos)
+                if (belongTo == NodeBelongTo.Hide) continue;
+                SearchTreeEntry entry =new SearchTreeGroupEntry(new GUIContent(belongTo.ToString()), 1);
+                tree.Add(entry);
+
+                if (m_DataMamager != null && m_DataMamager.NodeConfigFile.MainStyleProperties.Count > 0)
                 {
-                    Type type = Type.GetType(info.PropertyType);
-                    if (type != null)
+                    foreach (var info in m_DataMamager.NodeConfigFile.MainStyleProperties)
                     {
-                        SearchTreeEntry entry = new SearchTreeEntry(new GUIContent(info.Name, m_Indentation))
+                        if (info.NodeBelongTo != belongTo) continue;
+                        SearchTreeEntry entryChild = new SearchTreeEntry(new GUIContent(info.Name, m_Indentation))
                         {
-                            userData = type,
-                            level = 2
+                                userData = info,
+                                level = 2
                         };
-                        tree.Add(entry);
+                        tree.Add(entryChild);
                     }
                 }
             }
-
-           
-            
 
             return tree;
         }
@@ -81,24 +69,11 @@ namespace Pumpkin.AI.BehaviorTree
         public bool OnSelectEntry(SearchTreeEntry searchTreeEntry, SearchWindowContext context)
         {
             var nodeSpawnPos = ContextToLocalMousePos(context.screenMousePosition);
-            Type userDataType = searchTreeEntry.userData as Type;
 
-            var nodeCreationMethodName =
-                typeof(SerializableProperty).IsAssignableFrom(userDataType) ? nameof(BTGraphNodeFactory.CreateActionNodeGeneric)
-                 : nameof(BTGraphNodeFactory.CreateNodeGeneric);
-            var methodInfo = typeof(BTGraphNodeFactory).GetMethod(nodeCreationMethodName);
-            var genericMethodInfo = methodInfo.MakeGenericMethod(userDataType);
+            NodeProperty nodeProperty = searchTreeEntry.userData as NodeProperty;
+            Node node = BTGraphNodeFactory.CreateNode(nodeSpawnPos, nodeProperty, null);
 
-            object node;
-            if (typeof(SerializableProperty).IsAssignableFrom(userDataType))
-            {
-                node = genericMethodInfo.Invoke(null, new object[] { nodeSpawnPos, searchTreeEntry.name });
-            }
-            else
-            {
-                node = genericMethodInfo.Invoke(null, new object[] { nodeSpawnPos, string.Empty});
-            }
-            OnEntrySelected?.Invoke(node as Node);
+            OnEntrySelected?.Invoke(node);
             return true;
         }
     }
