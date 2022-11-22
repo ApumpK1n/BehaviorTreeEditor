@@ -14,8 +14,6 @@ namespace Pumpkin.AI.BehaviorTree
         private Func<Vector2, Vector2> ContextToLocalMousePos;
         private Texture2D m_Indentation;
 
-        private BTGraphActionConfig m_GraphActionConfig; // Action节点配置信息
-
         private DataManager m_DataMamager;
 
         public void Init(Action<Node> entrySelectCallback, Func<Vector2, Vector2> contextToLocalMousePos, DataManager dataManager)
@@ -26,8 +24,6 @@ namespace Pumpkin.AI.BehaviorTree
             m_Indentation = new Texture2D(1, 1);
             m_Indentation.SetPixel(0, 0, new Color(0, 0, 0, 0));
             m_Indentation.Apply();
-
-            m_GraphActionConfig = Resources.Load<BTGraphActionConfig>(BTGraphDefaultConfig.DefaultActionConfigPath);
 
             m_DataMamager = dataManager;
         }

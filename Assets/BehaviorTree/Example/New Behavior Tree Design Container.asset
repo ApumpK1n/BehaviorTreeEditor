@@ -43,3 +43,9 @@ MonoBehaviour:
     Guid: 90faa360-6535-41d6-afdb-42ef7114425f
     ParentGuid: 5e68a9ee-cb6b-416b-94d3-ff2d2db7e5d0
     PropertyJson: '{"Delay":10}'
+  - NodeType: 3
+    Position: {x: 598.4, y: 389.6}
+    Name: Parallel
+    Guid: af80d871-118c-4826-99a8-0de5a3fdd631
+    ParentGuid: 5e68a9ee-cb6b-416b-94d3-ff2d2db7e5d0
+    PropertyJson: '{"Strategy":1}'

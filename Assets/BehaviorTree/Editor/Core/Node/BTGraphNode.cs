@@ -26,8 +26,6 @@ namespace Pumpkin.AI.BehaviorTree
 
         protected string m_Guid;
 
-        protected DataManager m_DataManger;
-
         private T m_PropertyData;
         private GraphSerializableNodeData m_GraphSerializableNodeData;
         public string Guid => m_Guid;
@@ -56,7 +54,7 @@ namespace Pumpkin.AI.BehaviorTree
 
             titleContainer.Clear();
             StylizeTitleContainer(titleContainer);
-            var container = CreateTitleContent(m_NodeProperty.NodeType);
+            var container = CreateTitleContent();
             titleContainer.Add(container);
 
             SetPosition(new Rect(pos, DefaultNodeSize));
@@ -128,14 +126,14 @@ namespace Pumpkin.AI.BehaviorTree
             container.style.paddingRight = 5;
         }
 
-        private VisualElement CreateTitleContent(BTNodeType type)
+        private VisualElement CreateTitleContent()
         {
             var container = new VisualElement();
             container.style.flexDirection = FlexDirection.Row;
 
             var icon = new Image
             {
-                image = GetIcon(type),
+                image = GetIcon(),
                 scaleMode = ScaleMode.ScaleToFit
             };
             icon.style.marginRight = 5;
@@ -149,24 +147,9 @@ namespace Pumpkin.AI.BehaviorTree
             return container;
         }
 
-        protected virtual Texture2D GetIcon(BTNodeType type)
+        protected virtual Texture2D GetIcon()
         {
-            return Resources.Load<Texture2D>($"Icons/{GetIconFileName(type)}");
-        }
-
-        private string GetIconFileName(BTNodeType type)
-        {
-            switch (type)
-            {
-                case BTNodeType.Root:
-                    return "root";
-                case BTNodeType.Sequencer:
-                    return "sequencer";
-                case BTNodeType.Selector:
-                    return "selector";
-                default:
-                    return string.Empty;
-            }
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(m_NodeProperty.IconPath);
         }
 
         #endregion
@@ -203,8 +186,6 @@ namespace Pumpkin.AI.BehaviorTree
 
                 StylizePropField(field);
                 childContainer.Add(field);
-
-
 
                 m_PropertyContainer.Add(childContainer);
             }
@@ -277,6 +258,17 @@ namespace Pumpkin.AI.BehaviorTree
                 return field;
             }
 
+            if (typeof(Enum).IsAssignableFrom(type))
+            {
+                var value = (Enum)fieldInfo.GetValue(m_PropertyData);
+                var field = new EnumField(value);
+                //{
+                //    value//(Enum)Enum.ToObject(type, )
+                //};
+                bindDatAction += prop => fieldInfo.SetValue(prop, field.value);
+                return field;
+            }
+
             if (typeof(ScriptableObject).IsAssignableFrom(type) || type.IsInterface)
             {
                 var field = new ObjectField() { objectType = type };
@@ -295,10 +287,6 @@ namespace Pumpkin.AI.BehaviorTree
         #endregion
 
         #region Save
-        public void SetDataManager(DataManager dataManager)
-        {
-            m_DataManger = dataManager;
-        }
 
         public void Save(BehaviorTreeDesignContainer designContainer)
         {
