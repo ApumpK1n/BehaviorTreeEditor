@@ -6,17 +6,22 @@ namespace Pumpkin.AI.BehaviorTree
     [Serializable]
     public class ActionScriptProperty : SerializableProperty
     {
-        public ActionMonoBehaviour MonoScript;
+        public string ActionScriptType;
 
+        private ActionScript m_ActionScript;
 
         public override void Init(GameObject actor)
         {
-            MonoScript.Init(actor);
+
+            Type type = Type.GetType(ActionScriptType);
+            m_ActionScript = Activator.CreateInstance(type) as ActionScript;
+
+            m_ActionScript.Init(actor);
         }
 
         public override BTNodeState Tick()
         {
-            return MonoScript.Tick();
+            return m_ActionScript.Tick();
         }
     }
 }

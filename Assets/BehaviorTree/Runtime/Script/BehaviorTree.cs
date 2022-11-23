@@ -22,7 +22,7 @@ namespace Pumpkin.AI.BehaviorTree
             {
                 m_Root = ExtractTree();
             }
-
+            Enabled = true;
         }
 
 

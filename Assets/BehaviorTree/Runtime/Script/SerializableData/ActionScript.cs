@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Pumpkin.AI.BehaviorTree
 {
-    public class ActionMonoBehaviour : MonoBehaviour
+    public class ActionScript
     {
         protected GameObject m_Actor; 
 

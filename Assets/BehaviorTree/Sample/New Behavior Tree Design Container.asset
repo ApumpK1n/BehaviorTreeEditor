@@ -28,9 +28,9 @@ MonoBehaviour:
     PropertyType: Pumpkin.AI.BehaviorTree.SerializableProperty
     PropertyJson: 
   - NodeType: 5
-    Position: {x: 413.6, y: 153.59999}
+    Position: {x: 492.8, y: 163.2}
     Name: Script
     Guid: 849c2457-1137-4d13-8785-d085818325a1
     ParentGuid: 9943b101-4c38-49a5-8843-07588c46f446
     PropertyType: Pumpkin.AI.BehaviorTree.ActionScriptProperty
-    PropertyJson: '{"MonoScript":{"instanceID":0}}'
+    PropertyJson: '{"ActionScriptType":"Pumpkin.AI.BehaviorTree.MoveToBehaviourScript"}'
