@@ -13,8 +13,6 @@ namespace Pumpkin.AI.BehaviorTree
     {
         private BTGraphView m_BTGraphView; // 逻辑图界面
 
-        private BTBlackboard m_BTBlackboard;
-
         private BTEditorCreateNodeWindow m_CreateNodeWindow; // 创建节点界面
 
         private BehaviorTreeDesignContainer m_DesignContainer; // 树存储的文件
@@ -41,13 +39,7 @@ namespace Pumpkin.AI.BehaviorTree
             m_BTGraphView = CreateGraphView();
             m_BTGraphView.graphViewChanged += GraphViewChanged;
 
-            m_BTBlackboard = CreateBlackboard(m_BTGraphView, "Shared Variables", new Rect(10, 30, 250, 250));
-            m_BTBlackboard.visible =true;
-
             m_CreateNodeWindow = CreateNodeSearchWindow(m_BTGraphView);
-
-
-            //m_BTGraphView.Add(m_BTBlackboard);
 
             m_Toolbar = CreateToolbar();
             m_Toolbar.visible = true;
@@ -64,13 +56,6 @@ namespace Pumpkin.AI.BehaviorTree
             return emptyGraphView;
         }
 
-        private BTBlackboard CreateBlackboard(BTGraphView graphView, string title, Rect rect)
-        {
-            var blackboard = new BTBlackboard(graphView) { title = title, scrollable = true };
-            blackboard.SetPosition(rect);
-            //blackboard.addItemRequested = bb => AddBlackboardItem(bb);
-            return blackboard;
-        }
 
         /// <summary>
         /// 创建选择节点界面

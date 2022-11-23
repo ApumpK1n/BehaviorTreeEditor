@@ -11,7 +11,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         public override BTNodeType NodeType => BTNodeType.Null;
 
-        public override bool Init(BTBaseNode[] children, GameObject actor)
+        public override bool Init(BTBaseNode[] children, GameObject actor, string json)
         {
             if (children.Length < 1) return false;
 

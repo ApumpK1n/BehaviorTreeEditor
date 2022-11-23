@@ -7,5 +7,11 @@ namespace Pumpkin.AI.BehaviorTree
     {
 
         public int Delay;
+
+
+        public override BTNodeState Tick()
+        {
+            return base.Tick();
+        }
     }
 }

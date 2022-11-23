@@ -6,6 +6,8 @@ namespace Pumpkin.AI.BehaviorTree
 {
     public class BehaviorTree : MonoBehaviour
     {
+        public bool Enabled { get; set; }
+
         [SerializeField]
         private GameObject m_Actor;
 
@@ -26,7 +28,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         private void Update()
         {
-            if (m_Root != null)
+            if (m_Root != null && Enabled)
             {
                 m_Root.Tick();
             }
@@ -38,9 +40,20 @@ namespace Pumpkin.AI.BehaviorTree
             var linkDict = new Dictionary<BTBaseNode, List<BTBaseNode>>(m_DesignContainer.Length);
             var linkDataList = new List<GraphLinkData>(m_DesignContainer.Length);
             var nodeDict = new Dictionary<string, BTBaseNode>(m_DesignContainer.Length);
+
+            var nodePropertyDict = new Dictionary<BTBaseNode, string>(m_DesignContainer.Length);
             foreach (var nodeData in m_DesignContainer.NodeDataList)
             {
-                var node = BTNodeFactory.Create(nodeData.NodeType);
+                BTBaseNode node;
+                if (nodeData.NodeType == BTNodeType.Action)
+                {
+                    node = BTNodeFactory.CreateAction(nodeData.PropertyType);
+                }
+                else
+                {
+                    node = BTNodeFactory.Create(nodeData.NodeType);
+                }
+                
 
                 if (nodeData.NodeType == BTNodeType.Root)
                 {
@@ -48,6 +61,7 @@ namespace Pumpkin.AI.BehaviorTree
                 }
                 linkDict.Add(node, new List<BTBaseNode>());
                 nodeDict.Add(nodeData.Guid, node);
+                nodePropertyDict.Add(node, nodeData.PropertyJson);
                 if (!string.IsNullOrEmpty(nodeData.ParentGuid))
                 {
                     linkDataList.Add(new GraphLinkData() { startGuid = nodeData.ParentGuid, endGuid = nodeData.Guid });
@@ -66,7 +80,8 @@ namespace Pumpkin.AI.BehaviorTree
 
             foreach (var keyValue in linkDict)
             {
-                keyValue.Key.Init(keyValue.Value.ToArray(), m_Actor);
+                BTBaseNode node = keyValue.Key;
+                node.Init(keyValue.Value.ToArray(), m_Actor, nodePropertyDict[node]);
             }
 
             if (root == null)

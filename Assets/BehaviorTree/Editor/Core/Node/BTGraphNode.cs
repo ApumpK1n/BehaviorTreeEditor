@@ -280,6 +280,13 @@ namespace Pumpkin.AI.BehaviorTree
                 return field;
             }
 
+            if (typeof(MonoBehaviour).IsAssignableFrom(type))
+            {
+                var field = new ObjectField() { objectType = type };
+                bindDatAction += prop => fieldInfo.SetValue(prop, field.value);
+                return field;
+            }
+
             return new Label($"Unsupported type {type}");
         }
 
@@ -302,7 +309,8 @@ namespace Pumpkin.AI.BehaviorTree
                 json = PackUserData(serializableProperty);
             }
 
-            var graphSerializableNodeData = new GraphSerializableNodeData(m_NodeProperty.Name, GetPosition().position, m_Guid, GetParentGuid(inputContainer), m_NodeProperty.NodeType, json);
+            var graphSerializableNodeData = new GraphSerializableNodeData(m_NodeProperty.Name, GetPosition().position, 
+                m_Guid, GetParentGuid(inputContainer), m_NodeProperty.NodeType, typeof(T).ToString(), json);
             designContainer.AddNodeData(graphSerializableNodeData);
         }
 
@@ -326,15 +334,15 @@ namespace Pumpkin.AI.BehaviorTree
             return (parentNode as ISavable).Guid;
         }
 
+
         public void UnpackPropertyJson()
-        {
-            m_PropertyData = JsonUtility.FromJson<T>(m_GraphSerializableNodeData.PropertyJson);
+        {      
+            m_PropertyData = Util.UnpackPropertyJson<T>(m_GraphSerializableNodeData.PropertyJson);
         }
 
         public string PackUserData(SerializableProperty nodeProperty)
-        {
-            String json = JsonUtility.ToJson(nodeProperty);
-            return json;
+        {     
+            return Util.PackUserData(nodeProperty);
         }
         #endregion
     }

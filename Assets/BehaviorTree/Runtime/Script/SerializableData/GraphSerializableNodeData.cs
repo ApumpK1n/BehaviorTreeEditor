@@ -11,9 +11,11 @@ namespace Pumpkin.AI.BehaviorTree
         public string Name;
         public string Guid;
         public string ParentGuid;
+        public string PropertyType;
         public string PropertyJson;
 
-        public GraphSerializableNodeData(string name, Vector2 position, string nodeGuid, string nodeParentguid, BTNodeType nodeType, string propertyJson)
+        public GraphSerializableNodeData(string name, Vector2 position, string nodeGuid, string nodeParentguid, 
+            BTNodeType nodeType, string propertyType, string propertyJson)
         {
             Name = name;
             Position = position;
@@ -21,6 +23,7 @@ namespace Pumpkin.AI.BehaviorTree
             Guid = nodeGuid;
             ParentGuid = nodeParentguid;
             PropertyJson = propertyJson;
+            PropertyType = propertyType;
         }
     }
 

@@ -1,3 +1,5 @@
+using System;
+
 namespace Pumpkin.AI.BehaviorTree
 {
     public static class BTNodeFactory
@@ -17,9 +19,21 @@ namespace Pumpkin.AI.BehaviorTree
             }
         }
 
-        //public static BTBaseNode CreateAction(BTBaseTask task, string guid)
-        //{
-        //    return new BTLeaf(task, guid);
-        //}
+        public static BTBaseNode CreateAction(string type)
+        {
+            Type propertyType = Type.GetType(type);
+
+            var nodeCreationMethodName = nameof(BTNodeFactory.CreateNodeGeneric);
+            var methodInfo = typeof(BTNodeFactory).GetMethod(nodeCreationMethodName);
+            var genericMethodInfo = methodInfo.MakeGenericMethod(propertyType);
+
+            object node = genericMethodInfo.Invoke(null, new object[] { }); ;
+            return node as BTBaseNode;
+        }
+
+        public static BTBaseNode CreateNodeGeneric<T>() where T : SerializableProperty
+        {
+            return new BTAction<T>();
+        }
     }
 }

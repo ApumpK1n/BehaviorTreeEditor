@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d35067a108d20b343af18e531021432d, type: 3}
+  m_Name: New Behavior Tree Design Container
+  m_EditorClassIdentifier: 
+  nodeDataList:
+  - NodeType: 0
+    Position: {x: 46.4, y: 171.2}
+    Name: Root
+    Guid: e59b1c11-88f2-4782-b754-79daf24d5f4d
+    ParentGuid: 
+    PropertyType: Pumpkin.AI.BehaviorTree.SerializableProperty
+    PropertyJson: 
+  - NodeType: 4
+    Position: {x: 189.6, y: 171.2}
+    Name: Null
+    Guid: 9943b101-4c38-49a5-8843-07588c46f446
+    ParentGuid: e59b1c11-88f2-4782-b754-79daf24d5f4d
+    PropertyType: Pumpkin.AI.BehaviorTree.SerializableProperty
+    PropertyJson: 
+  - NodeType: 5
+    Position: {x: 413.6, y: 153.59999}
+    Name: Script
+    Guid: 849c2457-1137-4d13-8785-d085818325a1
+    ParentGuid: 9943b101-4c38-49a5-8843-07588c46f446
+    PropertyType: Pumpkin.AI.BehaviorTree.ActionScriptProperty
+    PropertyJson: '{"MonoScript":{"instanceID":0}}'

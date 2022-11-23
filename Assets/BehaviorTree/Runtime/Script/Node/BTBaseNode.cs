@@ -40,7 +40,7 @@ namespace Pumpkin.AI.BehaviorTree
     public abstract class BTBaseNode
     {
         public abstract BTNodeType NodeType { get; }
-        public abstract bool Init(BTBaseNode[] children, GameObject actor);
+        public abstract bool Init(BTBaseNode[] children, GameObject actor, string json);
         public abstract BTNodeState Tick();
 
     }
