@@ -19,8 +19,9 @@ namespace Pumpkin.AI.BehaviorTree
 
         public override BTNodeState Tick()
         {
-            var step = speed * Time.deltaTime; // calculate distance to move
-            m_Actor.transform.position = Vector3.MoveTowards(m_Actor.transform.position, m_TestPos, step);
+            //var step = speed * Time.deltaTime; // calculate distance to move
+            //m_Actor.transform.position = Vector3.MoveTowards(m_Actor.transform.position, m_TestPos, step);
+            Debug.Log("Repeat");
             return BTNodeState.SUCCESS;
         }
     }

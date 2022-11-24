@@ -69,3 +69,10 @@ MonoBehaviour:
     CapacityOut: 0
     IconPath: Assets/BehaviorTree/Editor/Resources/Icons/root.png
     PropertyScript: {fileID: 11500000, guid: 28ff99614413b0041a4a4c37839a5498, type: 3}
+  - Name: Repeat
+    NodeType: 6
+    NodeBelongTo: 4
+    CapacityIn: 1
+    CapacityOut: 1
+    IconPath: Assets/BehaviorTree/Editor/Resources/Icons/root.png
+    PropertyScript: {fileID: 11500000, guid: 2c5cef7af8333c44c86a0cab568abf67, type: 3}

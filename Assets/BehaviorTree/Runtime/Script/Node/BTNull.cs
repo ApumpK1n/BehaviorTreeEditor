@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Pumpkin.AI.BehaviorTree
@@ -5,28 +6,24 @@ namespace Pumpkin.AI.BehaviorTree
     /// <summary>
     /// »ù´¡½Úµã
     /// </summary>
-    public class BTNull<T>: BTBaseNode<T> where T : SerializableProperty
+    public class BTNull: INode
     {
-        private INode[] m_Children;
+        private INode m_Child;
 
-        public override BTNodeType NodeType => BTNodeType.Null;
+        public BTNodeType NodeType => BTNodeType.Null;
 
-        public override bool Init(INode[] children, GameObject actor, string json)
+        public bool Init(INode[] children, GameObject actor, string json, Type propertyType)
         {
-            if (children.Length < 1) return false;
+            if (children.Length != 1) return false;
 
-            m_Children = children;
+            m_Child = children[0];
 
             return true;
         }
 
-        public override BTNodeState Tick()
+        public BTNodeState Tick()
         {
-            foreach(var child in m_Children)
-            {
-                child.Tick();
-            }
-            return BTNodeState.SUCCESS;
+            return m_Child.Tick();
         }
     }
 }

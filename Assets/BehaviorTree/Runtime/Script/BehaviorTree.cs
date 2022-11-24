@@ -42,10 +42,10 @@ namespace Pumpkin.AI.BehaviorTree
             var linkDataList = new List<GraphLinkData>(m_DesignContainer.Length);
             var nodeDict = new Dictionary<string, INode>(m_DesignContainer.Length);
 
-            var nodePropertyDict = new Dictionary<INode, string>(m_DesignContainer.Length);
+            var nodePropertyDict = new Dictionary<INode, GraphSerializableNodeData>(m_DesignContainer.Length);
             foreach (var nodeData in m_DesignContainer.NodeDataList)
             {
-                INode node = BTNodeFactory.CreateGeneric(nodeData.NodeType, nodeData.PropertyType);
+                INode node = BTNodeFactory.CreateNode(nodeData.NodeType);
 
                 if (nodeData.NodeType == BTNodeType.Root)
                 {
@@ -53,7 +53,7 @@ namespace Pumpkin.AI.BehaviorTree
                 }
                 linkDict.Add(node, new List<INode>());
                 nodeDict.Add(nodeData.Guid, node);
-                nodePropertyDict.Add(node, nodeData.PropertyJson);
+                nodePropertyDict.Add(node, nodeData);
                 if (!string.IsNullOrEmpty(nodeData.ParentGuid))
                 {
                     linkDataList.Add(new GraphLinkData() { startGuid = nodeData.ParentGuid, endGuid = nodeData.Guid });
@@ -73,7 +73,9 @@ namespace Pumpkin.AI.BehaviorTree
             foreach (var keyValue in linkDict)
             {
                 INode node = keyValue.Key;
-                node.Init(keyValue.Value.ToArray(), m_Actor, nodePropertyDict[node]);
+                var nodeData = nodePropertyDict[node];
+                Type propertyType = Type.GetType(nodeData.PropertyType);
+                node.Init(keyValue.Value.ToArray(), m_Actor, nodeData.PropertyJson, propertyType);
             }
 
             if (root == null)

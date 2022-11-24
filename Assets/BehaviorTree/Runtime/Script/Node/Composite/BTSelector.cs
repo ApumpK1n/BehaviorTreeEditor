@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Pumpkin.AI.BehaviorTree
 {
-    public class BTSelector<T> : BTComposite<T> where T : SerializableProperty
+    public class BTSelector: BTComposite
     {
         public override BTNodeType NodeType => BTNodeType.Selector;
 

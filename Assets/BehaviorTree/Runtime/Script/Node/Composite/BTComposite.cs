@@ -1,13 +1,15 @@
+using System;
 using UnityEngine;
 
 namespace Pumpkin.AI.BehaviorTree
 {
-    public abstract class BTComposite<T> : BTBaseNode<T> where T : SerializableProperty
+    public abstract class BTComposite : INode
     {
         protected INode[] m_Children;
-        protected string m_Json;
 
-        public override bool Init(INode[] children, GameObject actor, string json)
+        public virtual BTNodeType NodeType => throw new NotImplementedException();
+
+        public virtual bool Init(INode[] children, GameObject actor, string json, Type propertyType)
         {
             if (children.Length == 0)
             {
@@ -15,9 +17,13 @@ namespace Pumpkin.AI.BehaviorTree
             }
 
             m_Children = children;
-            m_Json = json;
 
             return true;
+        }
+
+        public virtual BTNodeState Tick()
+        {
+            throw new NotImplementedException();
         }
     }
 }

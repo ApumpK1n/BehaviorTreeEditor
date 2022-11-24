@@ -28,9 +28,16 @@ MonoBehaviour:
     PropertyType: Pumpkin.AI.BehaviorTree.SerializableProperty
     PropertyJson: 
   - NodeType: 5
-    Position: {x: 492.8, y: 163.2}
+    Position: {x: 635.2, y: 132}
     Name: Script
     Guid: 849c2457-1137-4d13-8785-d085818325a1
-    ParentGuid: 9943b101-4c38-49a5-8843-07588c46f446
+    ParentGuid: 73e605ef-58f7-4b72-88b0-3bb6d29f7899
     PropertyType: Pumpkin.AI.BehaviorTree.ActionScriptProperty
     PropertyJson: '{"ActionScriptType":"Pumpkin.AI.BehaviorTree.MoveToBehaviourScript"}'
+  - NodeType: 6
+    Position: {x: 394.4, y: 171.2}
+    Name: Repeat
+    Guid: 73e605ef-58f7-4b72-88b0-3bb6d29f7899
+    ParentGuid: 9943b101-4c38-49a5-8843-07588c46f446
+    PropertyType: Pumpkin.AI.BehaviorTree.DecoratorRepeat
+    PropertyJson: '{"RepeatNum":4}'

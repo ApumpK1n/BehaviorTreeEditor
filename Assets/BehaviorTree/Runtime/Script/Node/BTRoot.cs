@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Pumpkin.AI.BehaviorTree
 {
-    public class BTRoot<T> : BTNull<T> where T : SerializableProperty
+    public class BTRoot : BTNull
     {
-        public override BTNodeType NodeType => BTNodeType.Root;
+        public new BTNodeType NodeType => BTNodeType.Root;
     }
 }
 

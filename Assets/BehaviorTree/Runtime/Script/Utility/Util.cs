@@ -9,7 +9,20 @@ namespace Pumpkin.AI.BehaviorTree
 
         public static T UnpackPropertyJson<T>(string json) where T : SerializableProperty
         {
+            if (String.IsNullOrEmpty(json))
+            {
+                return null;
+            }
             return JsonUtility.FromJson<T>(json);
+        }
+
+        public static object UnpackPropertyJson(string json, Type type)
+        {
+            if (String.IsNullOrEmpty(json))
+            {
+                return null;
+            }
+            return JsonUtility.FromJson(json, type);
         }
 
         public static string PackUserData(SerializableProperty nodeProperty)

@@ -1,12 +1,24 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Pumpkin.AI.BehaviorTree
 {
-    public class BTParallel<T> : BTComposite<T> where T : ParallelProperty
+    public class BTParallel: BTComposite
     {
         public override BTNodeType NodeType => BTNodeType.Parallel;
+
+        private ParallelProperty m_Property;
+
+        public override bool Init(INode[] children, GameObject actor, string json, Type propertyType)
+        {
+            bool state = base.Init(children, actor, json, propertyType);
+
+            m_Property = Util.UnpackPropertyJson<ParallelProperty>(json);
+
+            return state;
+        }
 
         public override BTNodeState Tick()
         {

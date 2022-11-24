@@ -1,24 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Pumpkin.AI.BehaviorTree
 {
-    public class BTBaseNode: INode
+    public class BTDecorator : INode
     {
-        public virtual BTNodeType NodeType => throw new NotImplementedException();
+        protected INode m_Child;
 
-        protected object m_Property;
+        public BTNodeType NodeType => throw new NotImplementedException();
 
         public virtual bool Init(INode[] children, GameObject actor, string json, Type propertyType)
         {
-            if (String.IsNullOrEmpty(json))
+            if (children.Length != 1)
             {
-                m_Property = Util.UnpackPropertyJson(json, propertyType);
+                Debug.LogWarning($"Decorator:{this} child count != 1");
+                return false;
             }
+            m_Child = children[0];
+
             return true;
         }
 

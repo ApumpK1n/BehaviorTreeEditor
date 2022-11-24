@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,7 +19,8 @@ namespace Pumpkin.AI.BehaviorTree
         Selector,
         Parallel,
         Null,
-        Action
+        Action,
+        DecoratorRepeat,
     }
 
     public enum Strategy
@@ -34,13 +36,15 @@ namespace Pumpkin.AI.BehaviorTree
         Base,
         Composite,
         Action,
+        Decorator,
         Custom,
+
     }
 
     public interface INode
     {
         public BTNodeType NodeType { get; }
-        public bool Init(INode[] children, GameObject actor, string json);
+        public bool Init(INode[] children, GameObject actor, string json, Type propertyType);
         public BTNodeState Tick();
 
     }
