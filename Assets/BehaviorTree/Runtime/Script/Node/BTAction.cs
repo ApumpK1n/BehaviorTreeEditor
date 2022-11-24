@@ -4,13 +4,11 @@ using UnityEngine;
 
 namespace Pumpkin.AI.BehaviorTree
 {
-    public class BTAction<T> : BTBaseNode where T : SerializableProperty
+    public class BTAction<T> : BTBaseNode<T> where T : SerializableProperty 
     {
         public override BTNodeType NodeType => BTNodeType.Action;
 
-        private T m_Task;
-
-        public override bool Init(BTBaseNode[] children, GameObject actor, string json)
+        public override bool Init(INode[] children, GameObject actor, string json)
         {
             if (children.Length > 0) 
             {
@@ -18,16 +16,16 @@ namespace Pumpkin.AI.BehaviorTree
                 return false;
             }
 
-            m_Task = Util.UnpackPropertyJson<T>(json);
+            base.Init(children, actor, json);
 
-            m_Task.Init(actor);
+            m_Property.Init(actor);
 
             return true;
         }
 
         public override BTNodeState Tick()
         {
-            return m_Task.Tick();
+            return m_Property.Tick();
         }
     }
 }

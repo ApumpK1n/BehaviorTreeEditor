@@ -5,13 +5,13 @@ namespace Pumpkin.AI.BehaviorTree
     /// <summary>
     /// »ù´¡½Úµã
     /// </summary>
-    public class BTNull: BTBaseNode
+    public class BTNull<T>: BTBaseNode<T> where T : SerializableProperty
     {
-        private BTBaseNode[] m_Children;
+        private INode[] m_Children;
 
         public override BTNodeType NodeType => BTNodeType.Null;
 
-        public override bool Init(BTBaseNode[] children, GameObject actor, string json)
+        public override bool Init(INode[] children, GameObject actor, string json)
         {
             if (children.Length < 1) return false;
 

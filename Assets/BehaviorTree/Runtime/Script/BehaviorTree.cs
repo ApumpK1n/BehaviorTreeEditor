@@ -14,10 +14,11 @@ namespace Pumpkin.AI.BehaviorTree
         [SerializeField]
         private BehaviorTreeDesignContainer m_DesignContainer;
 
-        private BTBaseNode m_Root;
+        private INode m_Root;
 
         private void Awake()
         {
+
             if (m_DesignContainer != null)
             {
                 m_Root = ExtractTree();
@@ -34,32 +35,23 @@ namespace Pumpkin.AI.BehaviorTree
             }
         }
 
-        private BTBaseNode ExtractTree()
+        private INode ExtractTree()
         {
-            BTBaseNode root = null;
-            var linkDict = new Dictionary<BTBaseNode, List<BTBaseNode>>(m_DesignContainer.Length);
+            INode root = null;
+            var linkDict = new Dictionary<INode, List<INode>>(m_DesignContainer.Length);
             var linkDataList = new List<GraphLinkData>(m_DesignContainer.Length);
-            var nodeDict = new Dictionary<string, BTBaseNode>(m_DesignContainer.Length);
+            var nodeDict = new Dictionary<string, INode>(m_DesignContainer.Length);
 
-            var nodePropertyDict = new Dictionary<BTBaseNode, string>(m_DesignContainer.Length);
+            var nodePropertyDict = new Dictionary<INode, string>(m_DesignContainer.Length);
             foreach (var nodeData in m_DesignContainer.NodeDataList)
             {
-                BTBaseNode node;
-                if (nodeData.NodeType == BTNodeType.Action)
-                {
-                    node = BTNodeFactory.CreateAction(nodeData.PropertyType);
-                }
-                else
-                {
-                    node = BTNodeFactory.Create(nodeData.NodeType);
-                }
-                
+                INode node = BTNodeFactory.CreateGeneric(nodeData.NodeType, nodeData.PropertyType);
 
                 if (nodeData.NodeType == BTNodeType.Root)
                 {
                     root = node;
                 }
-                linkDict.Add(node, new List<BTBaseNode>());
+                linkDict.Add(node, new List<INode>());
                 nodeDict.Add(nodeData.Guid, node);
                 nodePropertyDict.Add(node, nodeData.PropertyJson);
                 if (!string.IsNullOrEmpty(nodeData.ParentGuid))
@@ -80,7 +72,7 @@ namespace Pumpkin.AI.BehaviorTree
 
             foreach (var keyValue in linkDict)
             {
-                BTBaseNode node = keyValue.Key;
+                INode node = keyValue.Key;
                 node.Init(keyValue.Value.ToArray(), m_Actor, nodePropertyDict[node]);
             }
 

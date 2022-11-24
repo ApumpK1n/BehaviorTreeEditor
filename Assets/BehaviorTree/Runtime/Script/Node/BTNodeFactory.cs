@@ -4,36 +4,37 @@ namespace Pumpkin.AI.BehaviorTree
 {
     public static class BTNodeFactory
     {
-        public static BTBaseNode Create(BTNodeType type)
+        public static INode CreateGeneric(BTNodeType nodeType, string propetyType)
         {
-            switch (type)
-            {
-                case BTNodeType.Root:
-                    return new BTRoot();
-                case BTNodeType.Sequencer:
-                    return new BTSequencer();
-                case BTNodeType.Selector:
-                    return new BTSelector();
-                default:
-                    return new BTNull();
-            }
-        }
-
-        public static BTBaseNode CreateAction(string type)
-        {
-            Type propertyType = Type.GetType(type);
+            Type propertyType = Type.GetType(propetyType);
 
             var nodeCreationMethodName = nameof(BTNodeFactory.CreateNodeGeneric);
             var methodInfo = typeof(BTNodeFactory).GetMethod(nodeCreationMethodName);
             var genericMethodInfo = methodInfo.MakeGenericMethod(propertyType);
 
-            object node = genericMethodInfo.Invoke(null, new object[] { }); ;
-            return node as BTBaseNode;
+            object node = genericMethodInfo.Invoke(null, new object[] { nodeType }); ;
+            return node as INode;
         }
 
-        public static BTBaseNode CreateNodeGeneric<T>() where T : SerializableProperty
+        public static INode CreateNodeGeneric<T>(BTNodeType nodeType) where T : SerializableProperty
         {
-            return new BTAction<T>();
+            switch (nodeType)
+            {
+                case BTNodeType.Root:
+                    return new BTRoot<T>();
+                case BTNodeType.Sequencer:
+                    return new BTSequencer<T>();
+                case BTNodeType.Selector:
+                    return new BTSelector<T>();
+                case BTNodeType.Parallel:
+                    return new BTParallel<ParallelProperty>();
+                case BTNodeType.Action:
+                    return new BTAction<T>();
+                default:
+                    return new BTNull<T>();
+            }
+
+            
         }
     }
 }

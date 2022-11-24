@@ -1,48 +1,30 @@
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Pumpkin.AI.BehaviorTree
 {
-    public enum BTNodeState
+    public class BTBaseNode<T> : INode where T : SerializableProperty
     {
-        SUCCESS,
-        FAILURE,
-        RUNNING
-    }
+        public virtual BTNodeType NodeType => throw new NotImplementedException();
 
-    public enum BTNodeType
-    {
-        Root,
-        Sequencer,
-        Selector,
-        Parallel,
-        Null,
-        Action
-    }
+        protected T m_Property;
 
-    public enum Strategy
-    {
+        public virtual bool Init(INode[] children, GameObject actor, string json)
+        {
+            if (String.IsNullOrEmpty(json))
+            {
+                m_Property = Util.UnpackPropertyJson<T>(json);
+            }
+            return true;
+        }
 
-        FAIL_ON_ONE,
-        FAIL_ON_ALL,
-    }
-
-    public enum NodeBelongTo
-    {
-        Hide,
-        Base,
-        Composite,
-        Action,
-        Custom,
-    }
-
-    public abstract class BTBaseNode
-    {
-        public abstract BTNodeType NodeType { get; }
-        public abstract bool Init(BTBaseNode[] children, GameObject actor, string json);
-        public abstract BTNodeState Tick();
-
+        public virtual BTNodeState Tick()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
-

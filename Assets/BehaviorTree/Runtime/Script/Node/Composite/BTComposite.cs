@@ -2,12 +2,12 @@ using UnityEngine;
 
 namespace Pumpkin.AI.BehaviorTree
 {
-    public abstract class BTComposite : BTBaseNode
+    public abstract class BTComposite<T> : BTBaseNode<T> where T : SerializableProperty
     {
-        protected BTBaseNode[] m_Children;
+        protected INode[] m_Children;
         protected string m_Json;
 
-        public override bool Init(BTBaseNode[] children, GameObject actor, string json)
+        public override bool Init(INode[] children, GameObject actor, string json)
         {
             if (children.Length == 0)
             {
