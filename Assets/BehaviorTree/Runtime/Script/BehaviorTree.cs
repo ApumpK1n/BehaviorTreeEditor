@@ -16,6 +16,8 @@ namespace Pumpkin.AI.BehaviorTree
 
         private INode m_Root;
 
+        private BTNodeState m_CurrentState;
+
         private void Awake()
         {
 
@@ -26,13 +28,17 @@ namespace Pumpkin.AI.BehaviorTree
             Enabled = true;
         }
 
-
-        private void Update()
+        private void Start()
         {
             if (m_Root != null && Enabled)
             {
-                m_Root.Tick();
+                m_CurrentState = m_Root.Tick();
             }
+        }
+
+        private void Update()
+        {
+           
         }
 
         private INode ExtractTree()
