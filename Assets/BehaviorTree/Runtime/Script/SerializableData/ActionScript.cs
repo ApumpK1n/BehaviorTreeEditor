@@ -13,9 +13,9 @@ namespace Pumpkin.AI.BehaviorTree
             m_Actor = actor;
         }
 
-        public virtual BTNodeState Tick()
+        public virtual void Execute()
         {
-            return BTNodeState.SUCCESS;
+
         }
     }
 }

@@ -1,17 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Pumpkin.AI.BehaviorTree
 {
-    public class BTAction: INode
+    public class BTAction: BTBaseNode
     {
-        public BTNodeType NodeType => BTNodeType.Action;
+        public new BTNodeType NodeType => BTNodeType.Action;
 
         private SerializableProperty m_Property;
 
-        public bool Init(INode[] children, GameObject actor, string json, Type propertyType)
+        public override bool Init(INode[] children, GameObject actor, string json, Type propertyType)
         {
+            Assert.IsTrue(children.Length < 1, "Action Init child count > 0!");
             if (children.Length > 0) 
             {
                 Debug.LogWarning("BTAction Init action child count > 0!");
@@ -25,9 +27,9 @@ namespace Pumpkin.AI.BehaviorTree
             return true;
         }
 
-        public BTNodeState Tick()
+        public override void Execute()
         {
-            return m_Property.Tick();
+            m_Property.Execute();
         }
     }
 }

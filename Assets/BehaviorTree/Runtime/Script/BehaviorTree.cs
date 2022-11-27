@@ -18,6 +18,8 @@ namespace Pumpkin.AI.BehaviorTree
 
         private BTNodeState m_CurrentState;
 
+        private Clock m_Clock;
+
         private void Awake()
         {
 
@@ -38,7 +40,10 @@ namespace Pumpkin.AI.BehaviorTree
 
         private void Update()
         {
-           
+            if (m_Root != null && Enabled)
+            {
+                m_Clock.Update(Time.deltaTime);
+            }
         }
 
         private INode ExtractTree()

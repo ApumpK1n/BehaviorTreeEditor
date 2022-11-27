@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Pumpkin.AI.BehaviorTree
 {
@@ -11,20 +12,68 @@ namespace Pumpkin.AI.BehaviorTree
     {
         public virtual BTNodeType NodeType => throw new NotImplementedException();
 
-        protected object m_Property;
+        public BTNodeState CurrentState => m_CurrentState;
+
+        protected INode m_Parent;
+        protected INode[] m_Children;
+
+        protected BTNodeState m_CurrentState = BTNodeState.INACTIVE;
 
         public virtual bool Init(INode[] children, GameObject actor, string json, Type propertyType)
         {
-            if (String.IsNullOrEmpty(json))
+            m_Children = children;
+
+            foreach (INode node in m_Children)
             {
-                m_Property = Util.UnpackPropertyJson(json, propertyType);
+                node.SetParent(this);
             }
             return true;
         }
 
-        public virtual BTNodeState Tick()
+
+
+        public void Enter()
+        {
+            Assert.AreEqual(m_CurrentState, BTNodeState.INACTIVE, "can only start inactive node");
+            m_CurrentState = BTNodeState.ACTIVE;
+            
+            Execute();
+        }
+
+        public virtual void Execute()
+        {
+            
+        }
+
+        public void Exit(bool success)
+        {
+            Assert.AreNotEqual(m_CurrentState, BTNodeState.INACTIVE, "can not Exit inactive node");
+
+            if (m_Parent != null)
+            {
+                m_Parent.ChildExited(this, success);
+            }
+        }
+
+        public virtual void OnExit()
         {
             throw new NotImplementedException();
+        }
+
+        public void SetParent(INode parent)
+        {
+            m_Parent = parent;
+        }
+
+        public void ChildExited(INode child, bool succeeded)
+        {
+
+            OnChildExited(child, succeeded);
+        }
+
+        protected virtual void OnChildExited(INode child, bool succeeded)
+        {
+
         }
     }
 }

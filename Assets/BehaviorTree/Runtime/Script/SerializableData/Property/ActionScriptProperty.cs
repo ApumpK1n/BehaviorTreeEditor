@@ -19,9 +19,9 @@ namespace Pumpkin.AI.BehaviorTree
             m_ActionScript.Init(actor);
         }
 
-        public override BTNodeState Tick()
+        public override void Execute()
         {
-            return m_ActionScript.Tick();
+            m_ActionScript.Execute();
         }
     }
 }

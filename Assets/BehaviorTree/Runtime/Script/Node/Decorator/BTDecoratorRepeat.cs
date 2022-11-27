@@ -11,7 +11,7 @@ namespace Pumpkin.AI.BehaviorTree
     {
         private DecoratorRepeat m_Property;
 
-        private int m_SuccessNum;
+        private int m_CurrentRepeatNum;
 
         public override bool Init(INode[] children, GameObject actor, string json, Type propertyType)
         {
@@ -22,20 +22,29 @@ namespace Pumpkin.AI.BehaviorTree
             return state;
         }
 
-        public override BTNodeState Tick()
+        public override void Execute()
         {
-            var status = m_Child.Tick();
-            switch (status)
+            if (m_Property.RepeatNum > 0)
             {
-                case BTNodeState.SUCCESS:
-                    return HandleSuccess(m_Property.RepeatNum);
-                case BTNodeState.FAILURE:
-                    Halt();
-                    return status;
-                case BTNodeState.RUNNING:
-                default:
-                    return status;
+                m_CurrentRepeatNum = 0;
+                m_Child.Execute();
             }
+            else
+            {
+                Exit(true);
+            }
+        
+            //switch (status)
+            //{
+            //    case BTNodeState.SUCCESS:
+            //        return HandleSuccess(m_Property.RepeatNum);
+            //    case BTNodeState.FAILURE:
+            //        Halt();
+            //        return status;
+            //    case BTNodeState.RUNNING:
+            //    default:
+            //        return status;
+            //}
         }
 
         private BTNodeState HandleSuccess(int n)

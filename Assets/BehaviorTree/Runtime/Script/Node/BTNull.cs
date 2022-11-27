@@ -1,19 +1,21 @@
 using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Pumpkin.AI.BehaviorTree
 {
     /// <summary>
     /// »ù´¡½Úµã
     /// </summary>
-    public class BTNull: INode
+    public class BTNull: BTBaseNode
     {
         private INode m_Child;
 
-        public BTNodeType NodeType => BTNodeType.Null;
+        public new BTNodeType NodeType => BTNodeType.Null;
 
-        public bool Init(INode[] children, GameObject actor, string json, Type propertyType)
+        public override bool Init(INode[] children, GameObject actor, string json, Type propertyType)
         {
+            Assert.IsTrue(children.Length == 1, "BaseNode can only have one child");
             if (children.Length != 1) return false;
 
             m_Child = children[0];
@@ -21,9 +23,9 @@ namespace Pumpkin.AI.BehaviorTree
             return true;
         }
 
-        public BTNodeState Tick()
+        public override void Execute()
         {
-            return m_Child.Tick();
+            m_Child.Execute();
         }
     }
 }

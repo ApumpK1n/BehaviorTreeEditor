@@ -1,21 +1,18 @@
 using System;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Pumpkin.AI.BehaviorTree
 {
-    public abstract class BTComposite : INode
+    public abstract class BTComposite : BTBaseNode
     {
-        protected INode[] m_Children;
-
-        public virtual BTNodeType NodeType => throw new NotImplementedException();
-
-        public virtual bool Init(INode[] children, GameObject actor, string json, Type propertyType)
+        public override bool Init(INode[] children, GameObject actor, string json, Type propertyType)
         {
             if (children.Length == 0)
             {
                 return false;
             }
-
+            Assert.IsTrue(children.Length > 0, "Composite nodes (Selector, Sequence, Parallel) need at least one child!");
             m_Children = children;
 
             return true;
