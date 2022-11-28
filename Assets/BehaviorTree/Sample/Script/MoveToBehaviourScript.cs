@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Pumpkin.AI.BehaviorTree
 {
@@ -9,19 +10,28 @@ namespace Pumpkin.AI.BehaviorTree
     {
         private Vector3 m_TestPos;
         private float speed = 5;
+        private NavMeshAgent m_Agent;
 
         public override void Init(GameObject actor)
         {
             base.Init(actor);
 
-            m_TestPos = new Vector3(1, 0, 0);
+            int area = 1 << NavMesh.GetAreaFromName("Walkable");
+            NavMeshHit hit;
+            NavMesh.SamplePosition(new Vector3(1, 0.5f, 0), out hit, 1.0f, area);
+            m_TestPos = hit.position;
+            m_Agent = actor.GetComponent<NavMeshAgent>();
         }
 
         public override bool Execute()
         {
-            var step = speed * Time.deltaTime; // calculate distance to move
-            m_Actor.transform.position = Vector3.MoveTowards(m_Actor.transform.position, m_TestPos, step);
-            return m_Actor.transform.position == m_TestPos;
+            if (m_Actor.transform.position == m_TestPos)
+            {
+                return true;
+            }
+
+            m_Agent.SetDestination(m_TestPos);
+            return false;
         }
     }
 
