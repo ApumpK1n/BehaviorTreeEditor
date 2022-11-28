@@ -32,7 +32,9 @@ namespace Pumpkin.AI.BehaviorTree
 
         public BTGraphNode(Vector2 pos, NodeProperty nodeProperty, GraphSerializableNodeData graphSerializableNodeData=null)
         {
-            styleSheets.Add(Resources.Load<StyleSheet>("Stylesheets/BTGraphNode"));
+            StyleSheet style = AssetDatabase.LoadAssetAtPath<StyleSheet>(BTGraphDefaultConfig.GraphNodeStyleSheetPath);
+
+            styleSheets.Add(style);
             AddToClassList("bold-text");
 
             m_NodeProperty = nodeProperty;

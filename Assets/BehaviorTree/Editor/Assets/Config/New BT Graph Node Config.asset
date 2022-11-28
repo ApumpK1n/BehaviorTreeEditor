@@ -25,54 +25,54 @@ MonoBehaviour:
     NodeBelongTo: 0
     CapacityIn: 0
     CapacityOut: 1
-    IconPath: Assets/BehaviorTree/Editor/Resources/Icons/root.png
+    IconPath: Assets/BehaviorTree/Editor/Assets/Icons/root.png
     PropertyScript: {fileID: 0}
   - Name: Null
     NodeType: 4
     NodeBelongTo: 1
     CapacityIn: 1
     CapacityOut: 1
-    IconPath: Assets/BehaviorTree/Editor/Resources/Icons/root.png
+    IconPath: Assets/BehaviorTree/Editor/Assets/Icons/root.png
     PropertyScript: {fileID: 0}
   - Name: Wait
     NodeType: 5
     NodeBelongTo: 3
     CapacityIn: 1
     CapacityOut: 0
-    IconPath: Assets/BehaviorTree/Editor/Resources/Icons/root.png
+    IconPath: Assets/BehaviorTree/Editor/Assets/Icons/root.png
     PropertyScript: {fileID: 11500000, guid: b48d256636905ef4abb7167e2833b45c, type: 3}
   - Name: Selector
     NodeType: 2
     NodeBelongTo: 2
     CapacityIn: 1
     CapacityOut: 2
-    IconPath: Assets/BehaviorTree/Editor/Resources/Icons/root.png
+    IconPath: Assets/BehaviorTree/Editor/Assets/Icons/selector.png
     PropertyScript: {fileID: 0}
   - Name: Sequencer
     NodeType: 1
     NodeBelongTo: 2
     CapacityIn: 1
     CapacityOut: 2
-    IconPath: Assets/BehaviorTree/Editor/Resources/Icons/root.png
+    IconPath: Assets/BehaviorTree/Editor/Assets/Icons/sequencer.png
     PropertyScript: {fileID: 0}
   - Name: Parallel
     NodeType: 3
     NodeBelongTo: 2
     CapacityIn: 1
     CapacityOut: 2
-    IconPath: Assets/BehaviorTree/Editor/Resources/Icons/root.png
+    IconPath: Assets/BehaviorTree/Editor/Assets/Icons/parallel.png
     PropertyScript: {fileID: 11500000, guid: a64e7b98654db1647915080f0831180d, type: 3}
   - Name: Script
     NodeType: 5
     NodeBelongTo: 3
     CapacityIn: 1
     CapacityOut: 0
-    IconPath: Assets/BehaviorTree/Editor/Resources/Icons/root.png
+    IconPath: Assets/BehaviorTree/Editor/Assets/Icons/script.png
     PropertyScript: {fileID: 11500000, guid: 28ff99614413b0041a4a4c37839a5498, type: 3}
   - Name: Repeat
     NodeType: 6
     NodeBelongTo: 4
     CapacityIn: 1
     CapacityOut: 1
-    IconPath: Assets/BehaviorTree/Editor/Resources/Icons/root.png
+    IconPath: Assets/BehaviorTree/Editor/Assets/Icons/repeat.png
     PropertyScript: {fileID: 11500000, guid: 2c5cef7af8333c44c86a0cab568abf67, type: 3}
