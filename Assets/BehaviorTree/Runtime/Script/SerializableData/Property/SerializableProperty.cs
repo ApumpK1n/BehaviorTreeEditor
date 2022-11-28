@@ -7,12 +7,13 @@ namespace Pumpkin.AI.BehaviorTree
     public class SerializableProperty
     {
 
-        private GameObject m_Actor;
+        protected GameObject m_Actor;
+        protected INode m_Parent;
 
-
-        public virtual void Init(GameObject actor)
+        public virtual void Init(GameObject actor, INode parent)
         {
             m_Actor = actor;
+            m_Parent = parent;
         }
 
         public virtual void Execute()

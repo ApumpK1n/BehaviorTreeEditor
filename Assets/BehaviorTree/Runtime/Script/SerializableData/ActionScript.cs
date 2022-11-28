@@ -6,16 +6,16 @@ namespace Pumpkin.AI.BehaviorTree
 {
     public class ActionScript
     {
-        protected GameObject m_Actor; 
+        protected GameObject m_Actor;
 
         public virtual void Init(GameObject actor)
         {
             m_Actor = actor;
         }
 
-        public virtual void Execute()
+        public virtual bool Execute()
         {
-
+            return true;
         }
     }
 }

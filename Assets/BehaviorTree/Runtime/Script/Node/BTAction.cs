@@ -22,7 +22,7 @@ namespace Pumpkin.AI.BehaviorTree
 
             m_Property = (SerializableProperty)Util.UnpackPropertyJson(json, propertyType);
             
-            m_Property.Init(actor);
+            m_Property.Init(actor, this);
 
             return true;
         }
@@ -30,8 +30,6 @@ namespace Pumpkin.AI.BehaviorTree
         public override void Execute()
         {
             m_Property.Execute();
-
-            Exit(true);
         }
     }
 }

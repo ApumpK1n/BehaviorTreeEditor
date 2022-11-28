@@ -17,11 +17,11 @@ namespace Pumpkin.AI.BehaviorTree
             m_TestPos = new Vector3(1, 0, 0);
         }
 
-        public override void Execute()
+        public override bool Execute()
         {
-            //var step = speed * Time.deltaTime; // calculate distance to move
-            //m_Actor.transform.position = Vector3.MoveTowards(m_Actor.transform.position, m_TestPos, step);
-            Debug.Log("Repeat");
+            var step = speed * Time.deltaTime; // calculate distance to move
+            m_Actor.transform.position = Vector3.MoveTowards(m_Actor.transform.position, m_TestPos, step);
+            return m_Actor.transform.position == m_TestPos;
         }
     }
 

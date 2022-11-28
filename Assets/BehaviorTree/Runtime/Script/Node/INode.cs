@@ -44,6 +44,7 @@ namespace Pumpkin.AI.BehaviorTree
     {
         public BTNodeType NodeType { get; }
         public BTNodeState CurrentState { get; }
+        public Clock Clock { get; }
         public bool Init(INode[] children, GameObject actor, string json, Type propertyType);
 
         public void SetParent(INode parent);

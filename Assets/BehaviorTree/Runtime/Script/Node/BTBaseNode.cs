@@ -14,6 +14,8 @@ namespace Pumpkin.AI.BehaviorTree
 
         public BTNodeState CurrentState => m_CurrentState;
 
+        public Clock Clock => m_Clock;
+
         protected INode m_Parent;
         protected INode[] m_Children;
 
