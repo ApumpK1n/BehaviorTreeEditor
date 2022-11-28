@@ -21,16 +21,37 @@ MonoBehaviour:
     PropertyType: Pumpkin.AI.BehaviorTree.SerializableProperty
     PropertyJson: 
   - NodeType: 4
-    Position: {x: 189.6, y: 171.2}
+    Position: {x: 209.6, y: 155.2}
     Name: Null
     Guid: 9943b101-4c38-49a5-8843-07588c46f446
     ParentGuid: e59b1c11-88f2-4782-b754-79daf24d5f4d
     PropertyType: Pumpkin.AI.BehaviorTree.SerializableProperty
     PropertyJson: 
+  - NodeType: 2
+    Position: {x: 345.6, y: 125.59999}
+    Name: Selector
+    Guid: 681a66b1-b932-474f-84db-d7a4fca97817
+    ParentGuid: 9943b101-4c38-49a5-8843-07588c46f446
+    PropertyType: Pumpkin.AI.BehaviorTree.SerializableProperty
+    PropertyJson: 
+  - NodeType: 3
+    Position: {x: 513.6, y: 286.40002}
+    Name: Parallel
+    Guid: f83dcba7-914d-422e-971a-45b6882bb424
+    ParentGuid: 681a66b1-b932-474f-84db-d7a4fca97817
+    PropertyType: Pumpkin.AI.BehaviorTree.ParallelProperty
+    PropertyJson: '{"Strategy":0}'
+  - NodeType: 1
+    Position: {x: 498.4, y: 57.600002}
+    Name: Sequencer
+    Guid: d5531c2e-8ef6-4517-a83c-f4fdbb546261
+    ParentGuid: 681a66b1-b932-474f-84db-d7a4fca97817
+    PropertyType: Pumpkin.AI.BehaviorTree.SerializableProperty
+    PropertyJson: 
   - NodeType: 5
-    Position: {x: 624, y: 154.4}
+    Position: {x: 804.8, y: 113.59999}
     Name: Script
     Guid: 849c2457-1137-4d13-8785-d085818325a1
-    ParentGuid: 9943b101-4c38-49a5-8843-07588c46f446
+    ParentGuid: d5531c2e-8ef6-4517-a83c-f4fdbb546261
     PropertyType: Pumpkin.AI.BehaviorTree.ActionScriptProperty
     PropertyJson: '{"ActionScriptType":"Pumpkin.AI.BehaviorTree.MoveToBehaviourScript","ExecuteScriptType":1}'

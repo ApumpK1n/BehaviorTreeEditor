@@ -16,6 +16,6 @@ namespace Pumpkin.AI.BehaviorTree
 
         public static string GraphNullName = "Null";
 
-        public static string DefaultNodeConfigPath = "Assets/BehaviorTree/Editor/Resources/Config/New BT Graph Node Config.asset";
+        public static string DefaultNodeConfigPath = "Assets/BehaviorTree/Editor/Assets/Config/New BT Graph Node Config.asset";
     }
 }
