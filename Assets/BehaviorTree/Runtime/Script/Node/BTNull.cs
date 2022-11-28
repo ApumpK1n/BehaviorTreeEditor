@@ -25,7 +25,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         public override void Execute()
         {
-            m_Child.Execute();
+            m_Child.Enter();
         }
     }
 }

@@ -27,43 +27,37 @@ namespace Pumpkin.AI.BehaviorTree
             if (m_Property.RepeatNum > 0)
             {
                 m_CurrentRepeatNum = 0;
-                m_Child.Execute();
+                m_Child.Enter();
             }
             else
             {
                 Exit(true);
             }
-        
-            //switch (status)
-            //{
-            //    case BTNodeState.SUCCESS:
-            //        return HandleSuccess(m_Property.RepeatNum);
-            //    case BTNodeState.FAILURE:
-            //        Halt();
-            //        return status;
-            //    case BTNodeState.RUNNING:
-            //    default:
-            //        return status;
-            //}
+            
         }
 
-        private BTNodeState HandleSuccess(int n)
+        protected override void OnChildExited(INode child, bool result)
         {
-            if (m_SuccessNum == n)
+            if (result)
             {
-                Halt();
-                return BTNodeState.SUCCESS;
+                if (m_Property.RepeatNum > 0 && ++m_CurrentRepeatNum >= m_Property.RepeatNum)
+                {
+                    Exit(true);
+                }
+                else
+                {
+                    m_Clock.AddTimer(0, 0, TickChild);
+                }
             }
             else
             {
-                m_SuccessNum++;
-                return BTNodeState.RUNNING;
+                Exit(false);
             }
         }
 
-        public void Halt()
+        private void TickChild()
         {
-            m_SuccessNum = 0;
+            m_Child.Enter();
         }
     }
 }

@@ -19,6 +19,8 @@ namespace Pumpkin.AI.BehaviorTree
 
         protected BTNodeState m_CurrentState = BTNodeState.INACTIVE;
 
+        protected Clock m_Clock;
+
         public virtual bool Init(INode[] children, GameObject actor, string json, Type propertyType)
         {
             m_Children = children;
@@ -49,6 +51,7 @@ namespace Pumpkin.AI.BehaviorTree
         {
             Assert.AreNotEqual(m_CurrentState, BTNodeState.INACTIVE, "can not Exit inactive node");
 
+            m_CurrentState = BTNodeState.INACTIVE;
             if (m_Parent != null)
             {
                 m_Parent.ChildExited(this, success);
@@ -74,6 +77,11 @@ namespace Pumpkin.AI.BehaviorTree
         protected virtual void OnChildExited(INode child, bool succeeded)
         {
 
+        }
+
+        public void SetClock(Clock clock)
+        {
+            m_Clock = clock;
         }
     }
 }

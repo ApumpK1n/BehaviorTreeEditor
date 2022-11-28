@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Pumpkin.AI.BehaviorTree
 {
@@ -8,19 +9,43 @@ namespace Pumpkin.AI.BehaviorTree
     {
         public override BTNodeType NodeType => BTNodeType.Sequencer;
 
-        public override BTNodeState Tick()
-        {
-            for (int i = 0; i < m_Children.Length; i++)
-            {
-                var res = m_Children[i].Tick();
+        private int m_CurrentIndex = -1;
 
-                if (res != BTNodeState.SUCCESS)
-                {
-                    return res;
-                }
+        public override void Execute()
+        {
+            foreach (INode child in m_Children)
+            {
+                Assert.AreEqual(child.CurrentState, BTNodeState.INACTIVE);
             }
 
-            return BTNodeState.SUCCESS;
+            m_CurrentIndex = -1;
+
+            ProcessChildren();
+        }
+
+        private void ProcessChildren()
+        {
+            if (++m_CurrentIndex < m_Children.Length)
+            {
+                m_Children[m_CurrentIndex].Enter();
+            }
+            else
+            {
+                Exit(true);
+            }
+        }
+
+        protected override void OnChildExited(INode child, bool result)
+        {
+            // if node return fail, exit sequence
+            if (result)
+            {
+                ProcessChildren();
+            }
+            else
+            {
+                Exit(false);
+            }
         }
     }
 

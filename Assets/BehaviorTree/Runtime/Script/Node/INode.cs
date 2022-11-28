@@ -57,6 +57,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         public void ChildExited(INode child, bool succeeded);
 
+        public void SetClock(Clock clock);
     }
 }
 

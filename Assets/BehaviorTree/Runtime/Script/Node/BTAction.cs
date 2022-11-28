@@ -30,6 +30,8 @@ namespace Pumpkin.AI.BehaviorTree
         public override void Execute()
         {
             m_Property.Execute();
+
+            Exit(true);
         }
     }
 }

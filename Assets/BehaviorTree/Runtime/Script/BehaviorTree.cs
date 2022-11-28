@@ -22,11 +22,13 @@ namespace Pumpkin.AI.BehaviorTree
 
         private void Awake()
         {
+            m_Clock = new Clock();
 
             if (m_DesignContainer != null)
             {
                 m_Root = ExtractTree();
             }
+
             Enabled = true;
         }
 
@@ -34,7 +36,7 @@ namespace Pumpkin.AI.BehaviorTree
         {
             if (m_Root != null && Enabled)
             {
-                m_CurrentState = m_Root.Tick();
+                m_Root.Enter();
             }
         }
 
@@ -57,6 +59,7 @@ namespace Pumpkin.AI.BehaviorTree
             foreach (var nodeData in m_DesignContainer.NodeDataList)
             {
                 INode node = BTNodeFactory.CreateNode(nodeData.NodeType);
+                node.SetClock(m_Clock);
 
                 if (nodeData.NodeType == BTNodeType.Root)
                 {

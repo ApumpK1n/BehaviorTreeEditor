@@ -36,19 +36,17 @@ namespace Pumpkin.AI.BehaviorTree
             }
         }
 
-        public override BTNodeState Tick()
+        protected override void OnChildExited(INode child, bool result)
         {
-            for (int i = 0; i < m_Children.Length; i++)
+            // find a success node, if not continue tick
+            if (result)
             {
-                var res = m_Children[i].Tick();
-
-                if (res != BTNodeState.FAILURE)
-                {
-                    return res;
-                }
+                Exit(true);
             }
-
-            return BTNodeState.FAILURE;
+            else
+            {
+                ProcessChildren();
+            }
         }
     }
 
