@@ -24,8 +24,13 @@ namespace Pumpkin.AI.BehaviorTree
             var methodInfo = typeof(BTGraphNodeFactory).GetMethod(nodeCreationMethodName);
             var genericMethodInfo = methodInfo.MakeGenericMethod(propertyType);
 
-            object node = genericMethodInfo.Invoke(null, new object[] { pos, nodeProperty, graphSerializableNodeData}); ;
+            object node = genericMethodInfo.Invoke(null, new object[] { pos, nodeProperty, graphSerializableNodeData }); ;
             return node as Node;
+        }
+
+        public static Node CreateDebugNode(Vector2 pos, NodeProperty nodeProperty, GraphSerializableNodeData graphSerializableNodeData)
+        {
+            return new BTGraphDebugNode(pos, nodeProperty, graphSerializableNodeData);
         }
     }
 }

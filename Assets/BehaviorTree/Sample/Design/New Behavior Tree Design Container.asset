@@ -34,13 +34,6 @@ MonoBehaviour:
     ParentGuid: 9943b101-4c38-49a5-8843-07588c46f446
     PropertyType: Pumpkin.AI.BehaviorTree.SerializableProperty
     PropertyJson: 
-  - NodeType: 3
-    Position: {x: 513.6, y: 286.40002}
-    Name: Parallel
-    Guid: f83dcba7-914d-422e-971a-45b6882bb424
-    ParentGuid: 681a66b1-b932-474f-84db-d7a4fca97817
-    PropertyType: Pumpkin.AI.BehaviorTree.ParallelProperty
-    PropertyJson: '{"Strategy":0}'
   - NodeType: 1
     Position: {x: 498.4, y: 57.600002}
     Name: Sequencer

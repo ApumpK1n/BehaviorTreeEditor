@@ -11,6 +11,8 @@ namespace Pumpkin.AI.BehaviorTree
 {
     public class BehaviorTreeEditorWindow : GraphViewEditorWindow
     {
+        public static BehaviorTreeEditorWindow Instance;
+
         private BTGraphView m_BTGraphView; // 逻辑图界面
 
         private BTEditorCreateNodeWindow m_CreateNodeWindow; // 创建节点界面
@@ -24,7 +26,13 @@ namespace Pumpkin.AI.BehaviorTree
         [MenuItem("Window/Pumpkin/Behavior Tree")]
         public static void Init()
         {
-            GetWindow<BehaviorTreeEditorWindow>("Behavior Tree");
+            Instance = GetWindow<BehaviorTreeEditorWindow>("Behavior Tree");
+        }
+
+
+        public bool IsEnable(BehaviorTreeDesignContainer runtimeContainer)
+        {
+            return runtimeContainer != null && m_DesignContainer != null && runtimeContainer == m_DesignContainer;
         }
 
         private void OnDisable()

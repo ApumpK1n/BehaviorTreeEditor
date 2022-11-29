@@ -7,6 +7,8 @@ namespace Pumpkin.AI.BehaviorTree
     public class BehaviorTree : MonoBehaviour
     {
         public bool Enabled { get; set; }
+        public INode Root => m_Root;
+        public BehaviorTreeDesignContainer DesignContainer => m_DesignContainer;
 
         [SerializeField]
         private GameObject m_Actor;
