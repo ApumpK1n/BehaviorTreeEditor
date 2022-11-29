@@ -23,34 +23,7 @@ namespace Pumpkin.AI.BehaviorTree
             BTGraphNodeConfig data = AssetDatabase.LoadAssetAtPath<BTGraphNodeConfig>(BTGraphDefaultConfig.DefaultNodeConfigPath);
 
             NodeConfigFile = data;
-            ////if (data == null)
-            ////{
-            ////    DataFile = ScriptableObject.CreateInstance("SettingsData") as SettingsData;
-            ////    CreateSettingsFile();
-            ////}
-            //else
-            //{
-            //    DataFile = data;
-            //}
         }
-
-        //private void CreateSettingsFile()
-        //{
-        //    if (!AssetDatabase.IsValidFolder(BehaviorTreeGraphWindow.c_RootPathData))
-        //    {
-        //        AssetDatabase.CreateFolder("Assets", "Behavior Tree Visualizer (Beta)");
-        //        AssetDatabase.CreateFolder(BehaviorTreeGraphWindow.c_RootPathData, "Resources");
-        //    }
-
-        //    if (!AssetDatabase.Contains(DataFile))
-        //    {
-        //        AssetDatabase.CreateAsset(DataFile, $"{BehaviorTreeGraphWindow.c_DataPath}/settings.asset");
-        //    }
-
-        //    AssetDatabase.SaveAssets();
-        //    AssetDatabase.Refresh();
-        //}
-
        
     }
 }
