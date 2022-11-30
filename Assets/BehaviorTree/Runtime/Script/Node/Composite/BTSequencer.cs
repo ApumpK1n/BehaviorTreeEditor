@@ -37,7 +37,6 @@ namespace Pumpkin.AI.BehaviorTree
 
         protected override void OnChildExited(INode child, bool result)
         {
-            Debug.Log(" BTSequencer OnChildExited:" + result);
             // if node return fail, exit sequence
             if (result)
             {

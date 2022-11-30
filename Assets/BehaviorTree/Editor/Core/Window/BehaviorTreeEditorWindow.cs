@@ -19,6 +19,8 @@ namespace Pumpkin.AI.BehaviorTree
 
         private BehaviorTreeDesignContainer m_DesignContainer; // 树存储的文件
 
+        private Blackboard m_Blackboard;
+
         private Toolbar m_Toolbar; // 工具栏
 
         private DataManager m_DataManager;
@@ -52,8 +54,11 @@ namespace Pumpkin.AI.BehaviorTree
             m_Toolbar = CreateToolbar();
             m_Toolbar.visible = true;
 
+            m_Blackboard = CreateBlackboard("Shared Variables", new Rect(10, 30, 250, 250));
+
             rootVisualElement.Add(m_BTGraphView);
             rootVisualElement.Add(m_Toolbar);
+            rootVisualElement.Add(m_Blackboard);
         }
 
         private BTGraphView CreateGraphView()
@@ -126,6 +131,24 @@ namespace Pumpkin.AI.BehaviorTree
             toolbar.Add(objFieldContainer);
 
             return toolbar;
+        }
+
+        private Blackboard CreateBlackboard(string title, Rect rect)
+        {
+            var blackboard = new Blackboard(m_BTGraphView) { title = title, scrollable = true };
+            blackboard.SetPosition(rect);
+            blackboard.addItemRequested = AddBlackboardItem;
+            return blackboard;
+        }
+
+        private void AddBlackboardItem(Blackboard blackboard)
+        {
+            var container = new VisualElement();
+            var bbField = new BlackboardField() { text = "New Key" };
+            container.Add(bbField);
+            var propertyView = new ObjectField() { objectType = typeof(UnityEngine.Object) };
+            container.Add(new BlackboardRow(bbField, propertyView));
+            blackboard.Add(container);
         }
 
         private void SaveNodes2Container()

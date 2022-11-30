@@ -27,7 +27,7 @@ namespace Pumpkin.AI.BehaviorTree
         {
             DrawDefaultInspector();
 
-            if (GUILayout.Button("Debug Behavior Tree"))
+            if (GUILayout.Button("Debug"))
             {
                 if (BehaviorTreeDebugWindow.Instance == null)
                 {
@@ -36,6 +36,14 @@ namespace Pumpkin.AI.BehaviorTree
                 if (m_Tree != null && m_Tree.Root != null)
                 {
                     BehaviorTreeDebugWindow.Instance.BuildBehaviorTree(m_Tree);
+                }
+            }
+
+            if (GUILayout.Button("Tick"))
+            {
+                if (m_Tree != null)
+                {
+                    m_Tree.EnterBehaviorTree();
                 }
             }
         }

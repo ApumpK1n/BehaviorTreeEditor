@@ -11,6 +11,8 @@ namespace Pumpkin.AI.BehaviorTree
 
         private ActionScript m_ActionScript;
 
+        // Add Blackboard to user for Custom script?
+
         public enum ExecuteType
         {
             Single,

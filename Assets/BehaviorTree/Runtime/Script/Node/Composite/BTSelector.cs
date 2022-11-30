@@ -38,7 +38,6 @@ namespace Pumpkin.AI.BehaviorTree
 
         protected override void OnChildExited(INode child, bool result)
         {
-            Debug.Log(" BTSelector OnChildExited:" + result);
             // find a success node, if not continue tick
             if (result)
             {

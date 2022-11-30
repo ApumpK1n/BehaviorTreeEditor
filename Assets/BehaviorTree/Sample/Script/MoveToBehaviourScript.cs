@@ -12,6 +12,11 @@ namespace Pumpkin.AI.BehaviorTree
         private float speed = 5;
         private NavMeshAgent m_Agent;
 
+        //private Vector3 point1 = new Vector3(1, 0.5f, -11);
+
+        //private Vector3 point2 = new Vector3(-10, 0.5f, -10);
+
+
         public override void Init(GameObject actor)
         {
             base.Init(actor);

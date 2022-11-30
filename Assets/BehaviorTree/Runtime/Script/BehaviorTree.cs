@@ -32,19 +32,23 @@ namespace Pumpkin.AI.BehaviorTree
             Enabled = true;
         }
 
-        private void Start()
-        {
-            if (m_Root != null && Enabled)
-            {
-                m_Root.Enter();
-            }
-        }
 
         private void Update()
         {
             if (m_Root != null && Enabled)
             {
                 m_Clock.Update(Time.deltaTime);
+            }
+        }
+
+        /// <summary>
+        /// run behaviorTree once
+        /// </summary>
+        public void EnterBehaviorTree()
+        {
+            if (m_Root != null && Enabled)
+                {
+                m_Root.Enter();
             }
         }
 
