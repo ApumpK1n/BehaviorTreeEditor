@@ -15,7 +15,7 @@ namespace Pumpkin.AI.BehaviorTree
         {
             foreach (INode child in m_Children)
             {
-                Assert.AreEqual(child.CurrentState, BTNodeState.INACTIVE);
+                Assert.AreNotEqual(child.CurrentState, BTNodeState.ACTIVE);
             }
 
             m_CurrentIndex = -1;
@@ -38,6 +38,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         protected override void OnChildExited(INode child, bool result)
         {
+            Debug.Log(" BTSelector OnChildExited:" + result);
             // find a success node, if not continue tick
             if (result)
             {

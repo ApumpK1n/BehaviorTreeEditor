@@ -27,9 +27,9 @@ namespace Pumpkin.AI.BehaviorTree
             rootVisualElement.Add(m_BTGraphView);
         }
 
-        public void BuildBehaviorTree(BehaviorTreeDesignContainer designContainer)
+        public void BuildBehaviorTree(BehaviorTree tree)
         {
-            m_BTGraphView.UpdateView(designContainer);
+            m_BTGraphView.UpdateView(tree);
         }
 
         private BTDebugGraphView CreateGraphView()

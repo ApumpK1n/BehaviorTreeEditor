@@ -24,6 +24,16 @@ namespace Pumpkin.AI.BehaviorTree
 
         public int Length => nodeDataList.Count;
 
+        public GraphSerializableNodeData GetNodeDataByGuid(string guid)
+        {
+            foreach (var nodeData in nodeDataList)
+            {
+                if (nodeData.Guid == guid) return nodeData;
+            }
+
+            return null;
+        }
+
 #if UNITY_EDITOR
         public void Clear()
         {

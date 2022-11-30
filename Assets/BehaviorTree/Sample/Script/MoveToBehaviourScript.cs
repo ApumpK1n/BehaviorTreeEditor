@@ -25,7 +25,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         public override bool Execute()
         {
-            if (m_Actor.transform.position == m_TestPos)
+            if (Vector3.Distance(m_Actor.transform.position, m_TestPos) < 0.5f)
             {
                 return true;
             }

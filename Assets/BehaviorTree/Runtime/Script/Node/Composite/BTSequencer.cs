@@ -15,7 +15,7 @@ namespace Pumpkin.AI.BehaviorTree
         {
             foreach (INode child in m_Children)
             {
-                Assert.AreEqual(child.CurrentState, BTNodeState.INACTIVE);
+                Assert.AreNotEqual(child.CurrentState, BTNodeState.ACTIVE);
             }
 
             m_CurrentIndex = -1;
@@ -37,6 +37,7 @@ namespace Pumpkin.AI.BehaviorTree
 
         protected override void OnChildExited(INode child, bool result)
         {
+            Debug.Log(" BTSequencer OnChildExited:" + result);
             // if node return fail, exit sequence
             if (result)
             {

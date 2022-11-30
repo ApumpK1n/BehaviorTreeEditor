@@ -28,9 +28,9 @@ namespace Pumpkin.AI.BehaviorTree
             return node as Node;
         }
 
-        public static Node CreateDebugNode(Vector2 pos, NodeProperty nodeProperty, GraphSerializableNodeData graphSerializableNodeData)
+        public static Node CreateDebugNode(Vector2 pos, NodeProperty nodeProperty, GraphSerializableNodeData graphSerializableNodeData, INode treeNode)
         {
-            return new BTGraphDebugNode(pos, nodeProperty, graphSerializableNodeData);
+            return new BTGraphDebugNode(pos, nodeProperty, graphSerializableNodeData, treeNode);
         }
     }
 }

@@ -18,6 +18,8 @@ namespace Pumpkin.AI.BehaviorTree
             Assert.IsTrue(children.Length == 1, "BaseNode can only have one child");
             if (children.Length != 1) return false;
 
+            base.Init(children, actor, json, propertyType);
+
             m_Child = children[0];
 
             return true;
@@ -26,6 +28,7 @@ namespace Pumpkin.AI.BehaviorTree
         public override void Execute()
         {
             m_Child.Enter();
+            Exit(true);
         }
     }
 }

@@ -35,14 +35,14 @@ MonoBehaviour:
     PropertyType: Pumpkin.AI.BehaviorTree.SerializableProperty
     PropertyJson: 
   - NodeType: 1
-    Position: {x: 498.4, y: 57.600002}
+    Position: {x: 529.6, y: 107.2}
     Name: Sequencer
     Guid: d5531c2e-8ef6-4517-a83c-f4fdbb546261
     ParentGuid: 681a66b1-b932-474f-84db-d7a4fca97817
     PropertyType: Pumpkin.AI.BehaviorTree.SerializableProperty
     PropertyJson: 
   - NodeType: 5
-    Position: {x: 804.8, y: 113.59999}
+    Position: {x: 728, y: 134.4}
     Name: Script
     Guid: 849c2457-1137-4d13-8785-d085818325a1
     ParentGuid: d5531c2e-8ef6-4517-a83c-f4fdbb546261

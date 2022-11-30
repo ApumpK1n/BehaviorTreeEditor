@@ -16,9 +16,11 @@ namespace Pumpkin.AI.BehaviorTree
             EditorApplication.update += RedrawView;
         }
 
+
         void RedrawView()
         {
             Repaint();
+
         }
 
         public override void OnInspectorGUI()
@@ -31,7 +33,10 @@ namespace Pumpkin.AI.BehaviorTree
                 {
                     BehaviorTreeDebugWindow.Init();
                 }
-                BehaviorTreeDebugWindow.Instance.BuildBehaviorTree(m_Tree.DesignContainer);
+                if (m_Tree != null && m_Tree.Root != null)
+                {
+                    BehaviorTreeDebugWindow.Instance.BuildBehaviorTree(m_Tree);
+                }
             }
         }
     }

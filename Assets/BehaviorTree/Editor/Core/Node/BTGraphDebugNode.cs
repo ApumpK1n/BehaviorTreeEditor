@@ -21,17 +21,34 @@ namespace Pumpkin.AI.BehaviorTree
 
         private Image m_StatusIcon;
         private Color m_White = new Color(255, 255, 255);
+
+        private INode m_TreeNode;
+
+        private Texture m_SuccessTexture;
+        private Texture m_StandbyTexture;
+        private Texture m_FailTexture;
+        private Texture m_RunningTexture;
+
         public string Guid => m_Guid;
 
-        public BTGraphDebugNode(Vector2 pos, NodeProperty nodeProperty, GraphSerializableNodeData graphSerializableNodeData)
+        public BTGraphDebugNode(Vector2 pos, NodeProperty nodeProperty, GraphSerializableNodeData graphSerializableNodeData, INode treeNode)
         {
             StyleSheet style = AssetDatabase.LoadAssetAtPath<StyleSheet>(BTGraphDefaultConfig.GraphNodeStyleSheetPath);
 
             styleSheets.Add(style);
             AddToClassList("bold-text");
 
+            m_SuccessTexture = AssetDatabase.LoadAssetAtPath<Texture>("Assets/BehaviorTree/Editor/Assets/Icons/confirmed.png");
+            m_StandbyTexture = AssetDatabase.LoadAssetAtPath<Texture>("Assets/BehaviorTree/Editor/Assets/Icons/power-button.png");
+            m_FailTexture = AssetDatabase.LoadAssetAtPath<Texture>("Assets/BehaviorTree/Editor/Assets/Icons/cancel.png");
+            m_RunningTexture = AssetDatabase.LoadAssetAtPath<Texture>("Assets/BehaviorTree/Editor/Assets/Icons/cycling.png");
+
             m_NodeProperty = nodeProperty;
             m_GraphSerializableNodeData = graphSerializableNodeData;
+
+            m_TreeNode = treeNode;
+
+            m_TreeNode.NodeStatusChanged += OnNodeStatusChanged;
 
             if (graphSerializableNodeData != null && !string.IsNullOrEmpty(graphSerializableNodeData.Guid))
             {
@@ -57,7 +74,10 @@ namespace Pumpkin.AI.BehaviorTree
             capabilities &= ~Capabilities.Selectable;
 
             //SetEnabled(false);
+
+            StatusIconShow();
         }
+
 
         #region Title
         private void StylizeTitleContainer(VisualElement container)
@@ -105,6 +125,10 @@ namespace Pumpkin.AI.BehaviorTree
             return AssetDatabase.LoadAssetAtPath<Texture2D>(m_NodeProperty.IconPath);
         }
 
+        private void OnNodeStatusChanged(INode node)
+        {
+            StatusIconShow();
+        }
 
         private void UpdateStatusIcon(Texture newImage)
         {
@@ -112,8 +136,31 @@ namespace Pumpkin.AI.BehaviorTree
             {
                 return;
             }
-
+            m_StatusIcon.image = null;
             m_StatusIcon.image = newImage;
+        }
+
+        private void StatusIconShow()
+        {
+            if (m_TreeNode.CurrentState == BTNodeState.StandBy)
+            {
+                UpdateStatusIcon(m_StandbyTexture);
+            }
+            else if (m_TreeNode.CurrentState == BTNodeState.ACTIVE)
+            {
+                UpdateStatusIcon(m_RunningTexture);
+            }
+            else
+            {
+                if (m_TreeNode.ExitSuccess)
+                {
+                    UpdateStatusIcon(m_SuccessTexture);
+                }
+                else
+                {
+                    UpdateStatusIcon(m_FailTexture);
+                }
+            }
         }
         #endregion
 

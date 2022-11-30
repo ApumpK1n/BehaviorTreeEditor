@@ -7,6 +7,7 @@ namespace Pumpkin.AI.BehaviorTree
 {
     public enum BTNodeState
     {
+        StandBy,
         ACTIVE,
         INACTIVE,
     }
@@ -42,9 +43,17 @@ namespace Pumpkin.AI.BehaviorTree
 
     public interface INode
     {
+
+        public delegate void NodeStatusChangedEventHandler(INode sender);
+
+        public event NodeStatusChangedEventHandler NodeStatusChanged;
         public BTNodeType NodeType { get; }
         public BTNodeState CurrentState { get; }
+        public string Guid { get; set; }
         public Clock Clock { get; }
+        public INode[] Children { get; }
+
+        public bool ExitSuccess { get; set; }
         public bool Init(INode[] children, GameObject actor, string json, Type propertyType);
 
         public void SetParent(INode parent);

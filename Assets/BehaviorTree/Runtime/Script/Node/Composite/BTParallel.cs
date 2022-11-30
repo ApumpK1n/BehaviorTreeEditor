@@ -30,7 +30,7 @@ namespace Pumpkin.AI.BehaviorTree
         {
             foreach (INode child in m_Children)
             {
-                Assert.AreEqual(child.CurrentState, BTNodeState.INACTIVE);
+                Assert.AreNotEqual(child.CurrentState, BTNodeState.ACTIVE);
             }
 
             m_RunningCount = 0;

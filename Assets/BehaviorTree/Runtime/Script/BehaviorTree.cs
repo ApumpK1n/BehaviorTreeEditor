@@ -18,8 +18,6 @@ namespace Pumpkin.AI.BehaviorTree
 
         private INode m_Root;
 
-        private BTNodeState m_CurrentState;
-
         private Clock m_Clock;
 
         private void Awake()
@@ -62,6 +60,7 @@ namespace Pumpkin.AI.BehaviorTree
             {
                 INode node = BTNodeFactory.CreateNode(nodeData.NodeType);
                 node.SetClock(m_Clock);
+                node.Guid = nodeData.Guid;
 
                 if (nodeData.NodeType == BTNodeType.Root)
                 {

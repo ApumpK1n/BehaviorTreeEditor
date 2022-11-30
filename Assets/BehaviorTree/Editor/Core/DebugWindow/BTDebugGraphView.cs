@@ -30,26 +30,40 @@ namespace Pumpkin.AI.BehaviorTree
             m_DataManager = dataManager;
         }
 
-        public void UpdateView(BehaviorTreeDesignContainer designContainer)
+        private void ParseNode(BehaviorTreeDesignContainer designContainer, 
+            Dictionary<string, Node> nodeDict, List<GraphLinkData> linkDataList, INode treeNode)
         {
+            GraphSerializableNodeData nodeData = designContainer.GetNodeDataByGuid(treeNode.Guid);
+            NodeProperty nodeProperty = m_DataManager.NodeConfigFile.GetNodePropertyWithName(nodeData.Name);
+            Node node = BTGraphNodeFactory.CreateDebugNode(nodeData.Position, nodeProperty, nodeData, treeNode);
+
+
+            nodeDict.Add(nodeData.Guid, node);
+
+            if (!String.IsNullOrEmpty(nodeData.ParentGuid))
+            {
+                linkDataList.Add(new GraphLinkData() { startGuid = nodeData.ParentGuid, endGuid = nodeData.Guid });
+            }
+            AddNodeGraphElement(node);
+
+            if (treeNode.Children == null) return;
+            foreach(var child in treeNode.Children)
+            {
+                ParseNode(designContainer, nodeDict, linkDataList, child);
+            }
+        }
+
+        public void UpdateView(BehaviorTree tree)
+        {
+            BehaviorTreeDesignContainer designContainer = tree.DesignContainer;
+
 
             var nodeDict = new Dictionary<string, Node>(designContainer.NodeDataList.Count);
             var linkDataList = new List<GraphLinkData>(designContainer.NodeDataList.Count);
 
-            foreach (var nodeData in designContainer.NodeDataList)
-            {
-                NodeProperty nodeProperty = m_DataManager.NodeConfigFile.GetNodePropertyWithName(nodeData.Name);
-                Node node = BTGraphNodeFactory.CreateDebugNode(nodeData.Position, nodeProperty, nodeData);
+            INode treeNode = tree.Root;
 
-
-                nodeDict.Add(nodeData.Guid, node);
-
-                if (!String.IsNullOrEmpty(nodeData.ParentGuid))
-                {
-                    linkDataList.Add(new GraphLinkData() { startGuid = nodeData.ParentGuid, endGuid = nodeData.Guid });
-                }
-                AddNodeGraphElement(node);
-            }
+            ParseNode(designContainer, nodeDict, linkDataList, treeNode);
 
             foreach (var linkData in linkDataList)
             {
